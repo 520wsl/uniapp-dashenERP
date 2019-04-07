@@ -1,0 +1,31 @@
+.main.data-v-eeb183a0 {
+  padding: 0 30rpx;
+}
+.flex.data-v-eeb183a0 {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+.flex-left.data-v-eeb183a0 {
+  float: left;
+}
+.flex-right.data-v-eeb183a0 {
+  float: right;
+}
+.flex.data-v-eeb183a0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
