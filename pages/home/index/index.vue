@@ -7,9 +7,19 @@
 </template>
 
 <script>
+    import {getQysettingData} from '@/common/api/demo/classify.js'
 export default {
     data() {
         return {};
+    },
+    methods:{
+       async getQysettingDataAction(){
+           let res = await getQysettingData()
+           console.log('getQysettingDataAction',res)
+       }
+    },
+    mounted() {
+    	this.getQysettingDataAction()
     },
     computed: {
         wraningIconPath: function() {

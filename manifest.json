@@ -63,6 +63,17 @@
         "usingComponents" : true
     },
     "h5" : {
-        "title" : "测试"
+        "title" : "测试",
+        "devServer" : {
+            "port" : 8080,
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/api" : {
+                    "target" : "http://work.sixi.com",
+                    "changeOrigin" : true,
+                    "secure" : false
+                }
+            }
+        }
     }
 }

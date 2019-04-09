@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import {
     CDN
-} from './libs/util/index.js'
+} from '@/common/libs/util/index.js'
 
 Vue.config.productionTip = false
 
