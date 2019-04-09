@@ -1,6 +1,0 @@
-{
-  "navigationBarTitleText": "选择商品",
-  "usingComponents": {
-    "item-pro": "/components/choicePro/item-pro"
-  }
-}
