@@ -24,9 +24,9 @@
 			</view>
 		</view>
 		<view class="footer">
-			<text>交易记录</text>
+			<text @tap="routerTo('/pages/online-record/index')">交易记录</text>
 			|
-			<text>切换店铺</text>
+			<text @tap="routerTo('/pages/switch-company/switch-company')">切换店铺</text>
 		</view>
 		<lvvPopup position="top" ref="lvvpopref">
 			<view style="width: 100%;height: 100%;background: #f4f4f4;position: absolute;left:0;">
@@ -74,6 +74,9 @@
 			// 关闭modal弹出框
 			toclose(){
 				this.$refs.lvvpopref.close();
+			},
+			routerTo(url){
+				uni.redirectTo({ url });
 			}
 		}
 	}

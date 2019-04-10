@@ -5,6 +5,8 @@
 </template>
 
 <script>
+	import api from "@/common/libs/api.request.js";
+	import { getCompanyList,chooseCompany } from '@/common/api/login/index.js';
 	export default {
 		data() {
 			return {
@@ -12,42 +14,27 @@
 			};
 		},
 		mounted(){
-			this.getCompanyList()
+			this.getCompanyListAction()
 		},
 		methods:{
-			getCompanyList(){
-				this.companyList =[   
-					{
-					  "companyName": "浙江企顺管业科技有限公司",
-					  "id": 36872,
-					  "marketName": "",
-					  "memberId": "qsgykj"
-					},
-					{
-					  "companyName": "浙江企顺管业科技有限公司",
-					  "id": 36872,
-					  "marketName": "",
-					  "memberId": "qsgykj"
-					}
-				]
-// 				uni.request({
-// 					url:'/login/getCompanyList',
-// 					success:(res)=>{
-// 						if(res.status !== 200){
-// 							return
-// 						}
-// 						this.companyList = res.data
-// 					}
-// 				})
+			async getCompanyListAction(){
+				let res = await getCompanyList({})
+				if(res.data.status !== 200) return;
+				res = res.data;
+				this.companyList = res.data
 			},
-			switchLogin(memberId){
-				uni.request({
-					url:'/login/choose/company/login',
-					data:{ memberId },
-					success:(res) =>{
-						
+			async switchLogin(memberId){
+				let res = await chooseCompany({memberId})
+				res = res.data;
+				if(res.status !== 200) return;
+				uni.setStorage({
+					key: 'userInfo',
+					data: res.data,
+					success: (res) => {
+						console.log(res, '存储成功')
 					}
 				})
+				uni.redirectTo({ url: '/pages/create-order/create-order' })
 			}
 		}
 	}
@@ -55,7 +42,7 @@
 
 <style lang="less" scoped>
 	page,.layout{
-		min-height:100vh;
+		min-height:calc(100vh);
 		background: #fff;
 		font-family: PingFangSC-Semibold;
 	}
