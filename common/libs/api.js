@@ -38,8 +38,9 @@ export default {
 	config: {
 		baseUrl: "",
 		header: {
-			'Content-Type':'application/json;charset=UTF-8',
-			'Content-Type':'application/x-www-form-urlencoded'
+			'Content-Type':'application/x-www-form-urlencoded',
+            'Content-Type':'application/json;charset=UTF-8',
+			
 		},  
 		data: {},
 		method: "GET",

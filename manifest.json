@@ -69,7 +69,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {
-                    "target" : "http://work.sixi.com",
+                    "target" : "http://erp.sixi.com",
                     "changeOrigin" : true,
                     "secure" : false
                 }
