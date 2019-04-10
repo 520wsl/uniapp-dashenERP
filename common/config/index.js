@@ -7,4 +7,8 @@
  */
 export default {
     CDN: "http://custom-center.oss-cn-hangzhou.aliyuncs.com/customerCenter/image",
+    apiUrl:{
+        dev:'http://erp.sixi.com/api',
+        pro:'http://erp.sixi.com/api'
+    }
 };
