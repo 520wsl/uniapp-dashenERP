@@ -55,7 +55,7 @@ export const getSaleOrderInfo = ({
 	saleOrder,
 	state
 }) => {
-	return post('/order/list', {
+	return post('/order/details', {
 		saleOrder,
 		state
 	})
