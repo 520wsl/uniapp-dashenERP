@@ -51,6 +51,8 @@
 				<text>数量：<text class="red">{{info.productInfoTotal && info.productInfoTotal.piece?info.productInfoTotal.piece:0}}种</text></text>
 			</view>
 		</view>
+		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show">
+		</neil-modal>
 	</view>
 </template>
 
@@ -65,6 +67,7 @@
 		getSaleOrderInfo
 	} from '@/common/api/saleOrder/index.js';
 	import uniAppQrcode from "@/components/uni-app-qrcode/uni-app-qrcode.vue"
+	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
 		data() {
 			return {
@@ -94,30 +97,23 @@
 						key: 2,
 						value: '已扫码，待支付'
 					}
-				]
+				],
+				// 弹窗属性
+				modal: {
+					show: false,
+					content: ''
+				}
 			}
 		},
 		components: {
-			uniAppQrcode
+			uniAppQrcode,
+			neilModal
 		},
 		computed: {},
 		onLoad(option) {
 			console.log(option)
 			this.params.saleOrder = option.saleOrder;
 			let paymentStatus = option.paymentStatus || 0;
-			let paymentStatusList = [{
-					key: 0,
-					value: '代支付'
-				},
-				{
-					key: 1,
-					value: '已支付'
-				},
-				{
-					key: 2,
-					value: '已扫码，待支付'
-				}
-			];
 			this.paymentStatusName = getArrValue(this.paymentStatusList, paymentStatus);
 			this.getInfo();
 		},
@@ -131,6 +127,11 @@
 					...this.params
 				}
 				getSaleOrderInfo(params).then(res => {
+					if (res.status !== 200) {
+						this.modal.content = res.msg;
+						this.modal.show = true;
+						return;
+					}
 					let info = res.data;
 					info.baseInfo.createdAtTime = formatTime(info.baseInfo.created, "YYYY-MM-DD HH:mm:SS");
 					info.baseInfo.deliveryTypeName = info.baseInfo.deliveryType == 1 ? '自提' : '物流';

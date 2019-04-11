@@ -39,7 +39,8 @@
 			</view>
 		</view>
 		<uni-load-more :status="loading"></uni-load-more>
-
+		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show">
+		</neil-modal>
 	</view>
 </template>
 
@@ -56,6 +57,7 @@
 	} from '@/common/api/saleOrder/index.js';
 	import mpvuePicker from "@/components/mpvue-picker/mpvue-picker.vue"
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
 		data() {
 			return {
@@ -120,12 +122,18 @@
 					stateTime: -1,
 					sTime: formatTime(),
 					eTime: formatTime()
+				},
+				// 弹窗属性
+				modal: {
+					show: false,
+					content: ''
 				}
 			}
 		},
 		components: {
 			uniLoadMore,
-			mpvuePicker
+			mpvuePicker,
+			neilModal
 		},
 		computed: {},
 		onLoad() {
@@ -139,6 +147,7 @@
 			this.getList();
 		},
 		methods: {
+			// 时间切换
 			onTimeConfirm(e) {
 				this.timeIndex = e.index;
 				this.params.eTime = formatSubtractTime(e.value[0]);
@@ -147,8 +156,8 @@
 				this.isSearch = false;
 				this.getList();
 			},
+			// 状态切换
 			onStastuConfirm(e){
-				console.log(e)
 				this.statusIndex = e.index;
 				this.params.paymentStatus = e.value[0];
 				this.params.pageNum = 1;
@@ -172,13 +181,18 @@
 				if (this.isSearch) {
 					return;
 				}
-				if(this.list.length == this.params.total && this.list.ength != 0){
+				if(this.list.length == this.params.total && this.list.length != 0){
 					return;
 				}
 				this.loading = 'loading';
 				this.isSearch = true;
 				getSaleOrderList(params).then(res => {
 					this.isSearch = false;
+					if(res.status !== 200){
+						this.modal.content = res.msg;
+						this.modal.show = true;
+						return;
+					}
 					this.params.pageNum = this.params.pageNum + 1;
 					this.params.total = res.data.total || 0;
 					let list = res.data.list || [];
