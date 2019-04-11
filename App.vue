@@ -32,7 +32,9 @@ let getLoginUserInfo = async function(res){
 }
 export default {
     onLaunch: function() {
-		// #ifdef H5
+// 		uni.redirectTo({ url:'/pages/create-order/pay-success?money=500' })
+// 		return;
+		// #ifdef H5 || MP-WEIXIN
 			// 判断是否登录
 			uni.getStorage({
 				key:'userInfo',

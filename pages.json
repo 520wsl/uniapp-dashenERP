@@ -1,5 +1,6 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/create-order/create-order",
 			"style": {
@@ -46,6 +47,12 @@
 			"path": "pages/online-record/info",
 			"style": {
 				"navigationBarTitleText": "线上交易记录"
+			}
+		},
+		{
+			"path": "pages/create-order/pay-success",
+			"style": {
+				"navigationBarTitleText": "支付成功"
 			}
 		}
 	],
