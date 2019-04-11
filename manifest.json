@@ -71,7 +71,10 @@
                 "/api" : {
                     "target" : "http://erp.sixi.com",
                     "changeOrigin" : true,
-                    "secure" : false
+                    "secure" : false,
+					"pathRewrite": {
+					  "^/api": ""
+					}
                 }
             }
         },
