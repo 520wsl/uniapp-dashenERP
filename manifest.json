@@ -74,6 +74,9 @@
                     "secure" : false
                 }
             }
+        },
+        "router" : {
+            "mode" : "history"
         }
     }
 }
