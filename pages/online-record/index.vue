@@ -89,7 +89,7 @@
 				list: [],
 				// 是否在搜索
 				isSearch: false,
-
+				// more 加载更过 loading 加载中 noMore 没有更多
 				loading: 'more',
 				paymentStatusList: [{
 						key: 0,

@@ -71,7 +71,9 @@
 	export default {
 		data() {
 			return {
+				// 当前订单详情状态名
 				paymentStatusName: '',
+				// 订单详情商品详情
 				isShowProductInfo: false,
 				params: {
 					state: 0,
@@ -119,6 +121,7 @@
 		},
 		onReachBottom() {},
 		methods: {
+			// 展示订单商品信息切换
 			changeShowInfo() {
 				this.isShowProductInfo = !this.isShowProductInfo;
 			},
