@@ -27,7 +27,8 @@ export const getSaleOrderList = ({
 	printing,
 	stateTime,
 	sTime,
-	eTime
+    eTime,
+    type
 }) => {
 	return post('/order/list', {
 		orderNumber,
@@ -46,7 +47,8 @@ export const getSaleOrderList = ({
 		printing,
 		stateTime,
 		sTime,
-		eTime
+		eTime,
+        type
 	})
 }
 

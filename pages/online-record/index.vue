@@ -19,7 +19,7 @@
 		</view>
 		<view class="transaction-list">
 			<view class="transaction-list-item" v-for="(item, index) in list" :key="index">
-				<navigator class="navigator" :url="'/pages/online-record/info?paymentStatus='+item.paymentStatus+'&saleOrder='+item.saleOrderNum"
+				<navigator class="navigator" :url="'/pages/online-record/info?saleOrder='+item.saleOrderNum"
 				 hover-class="navigator-hover">
 					<view class="item-start">
 						<view>{{item.day}}</view>
@@ -111,7 +111,7 @@
 					tradeMode: -1,
 					paymentStatus: -1,
 					orderSource: -1,
-					salesman: '',
+					salesman: -1,
 					companyId: '',
 					pageSize: 10,
 					pageNum: 1,
@@ -119,9 +119,11 @@
 					auditState: -1,
 					logisticsSheet: -1,
 					printing: -1,
-					stateTime: -1,
+					stateTime: 1,
 					sTime: formatTime(),
-					eTime: formatTime()
+					eTime: formatTime(),
+					// 订单列表
+					type: 1
 				},
 				// 弹窗属性
 				modal: {
@@ -150,7 +152,7 @@
 			// 时间切换
 			onTimeConfirm(e) {
 				this.timeIndex = e.index;
-				this.params.eTime = formatSubtractTime(e.value[0]);
+				this.params.sTime = formatSubtractTime(e.value[0]);
 				this.params.pageNum = 1;
 				this.list = [];
 				this.isSearch = false;
@@ -186,9 +188,11 @@
 				}
 				this.loading = 'loading';
 				this.isSearch = true;
-				getSaleOrderList(params).then(res => {
+				getSaleOrderList(params).then(result => {
+					let res = result.data;
 					this.isSearch = false;
-					if(res.status !== 200){
+					if(res.status != 200){
+						this.loading = 'noMore'
 						this.modal.content = res.msg;
 						this.modal.show = true;
 						return;
