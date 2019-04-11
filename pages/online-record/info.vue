@@ -115,8 +115,6 @@
 		onLoad(option) {
 			console.log(option)
 			this.params.saleOrder = option.saleOrder;
-			let paymentStatus = option.paymentStatus || 0;
-			this.paymentStatusName = getArrValue(this.paymentStatusList, paymentStatus);
 			this.getInfo();
 		},
 		onReachBottom() {},
@@ -126,16 +124,19 @@
 				this.isShowProductInfo = !this.isShowProductInfo;
 			},
 			getInfo() {
-				let parasm = {
+				let params = {
 					...this.params
 				}
-				getSaleOrderInfo(params).then(res => {
+				getSaleOrderInfo(params).then(result => {
+					let res = result.data;
 					if (res.status !== 200) {
 						this.modal.content = res.msg;
 						this.modal.show = true;
 						return;
 					}
 					let info = res.data;
+					let payState = info && info.paymentInfo && info.paymentInfo.payState || 0;
+					this.paymentStatusName = getArrValue(this.paymentStatusList, payState);
 					info.baseInfo.createdAtTime = formatTime(info.baseInfo.created, "YYYY-MM-DD HH:mm:SS");
 					info.baseInfo.deliveryTypeName = info.baseInfo.deliveryType == 1 ? '自提' : '物流';
 					this.info = info;
