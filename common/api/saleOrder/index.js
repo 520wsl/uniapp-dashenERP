@@ -60,3 +60,13 @@ export const getSaleOrderInfo = ({
 		state
 	})
 }
+export const cashierAdd = ({
+	totalMoney,
+	deliveryType
+}) => {
+	return post('/order/cashier/add', {
+		totalMoney,
+		deliveryType
+	})
+}
+

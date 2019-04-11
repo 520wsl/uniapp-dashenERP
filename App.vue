@@ -22,6 +22,7 @@ let getLoginUserInfo = async function(res){
 				console.log(res,'存储成功')
 			}
 		})
+		return
 	}
 	// 如果有多家公司购买了ERP
 	if(!result.data.memberId){
@@ -31,8 +32,6 @@ let getLoginUserInfo = async function(res){
 }
 export default {
     onLaunch: function() {
-// 		uni.redirectTo({ url:'/pages/switch-company/switch-company' })
-// 		return
 		// #ifdef H5
 			// 判断是否登录
 			uni.getStorage({
@@ -56,13 +55,6 @@ export default {
 					 console.error('未获取到authCode')
 					 return;
 				 }
-				 uni.setStorage({
-				 	key:'alipayAppletAuthId',
-				 	data:res.authCode,
-				 	success:(res)=>{
-				 		console.log(res,'存储成功')
-				 	}
-				 })
 				 getLoginUserInfo(res)
 			  },
 			});
