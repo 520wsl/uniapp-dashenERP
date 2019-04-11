@@ -2,8 +2,8 @@
 	<view>
 		<mpvue-picker ref="mpvueTimePicker" :pickerValueDefault="timeIndex" mode='selector' @onConfirm="onTimeConfirm"
 		 :pickerValueArray="timeArray"></mpvue-picker>
-		 <mpvue-picker ref="mpvueStatusPicker" :pickerValueDefault="statusIndex" mode='selector' @onConfirm="onStastuConfirm"
-		  :pickerValueArray="statusArray"></mpvue-picker>
+		<mpvue-picker ref="mpvueStatusPicker" :pickerValueDefault="statusIndex" mode='selector' @onConfirm="onStastuConfirm"
+		 :pickerValueArray="statusArray"></mpvue-picker>
 		<view class="transaction-selection">
 			<view class="time" @tap="showPicker('time')">
 				<text>{{timeArray[timeIndex[0]].label}}</text>
@@ -19,8 +19,7 @@
 		</view>
 		<view class="transaction-list">
 			<view class="transaction-list-item" v-for="(item, index) in list" :key="index">
-				<navigator class="navigator" :url="'/pages/online-record/info?saleOrder='+item.saleOrderNum"
-				 hover-class="navigator-hover">
+				<navigator class="navigator" :url="'/pages/online-record/info?saleOrder='+item.saleOrderNum" hover-class="navigator-hover">
 					<view class="item-start">
 						<view>{{item.day}}</view>
 						<view class="month">{{item.month}}</view>
@@ -159,7 +158,7 @@
 				this.getList();
 			},
 			// 状态切换
-			onStastuConfirm(e){
+			onStastuConfirm(e) {
 				this.statusIndex = e.index;
 				this.params.paymentStatus = e.value[0];
 				this.params.pageNum = 1;
@@ -168,12 +167,12 @@
 				this.getList();
 			},
 			showPicker(type) {
-				if(type == 'time'){
+				if (type == 'time') {
 					this.$refs.mpvueTimePicker.show();
-				}else {
+				} else {
 					this.$refs.mpvueStatusPicker.show();
 				}
-				
+
 			},
 			getList() {
 				let params = {
@@ -183,7 +182,7 @@
 				if (this.isSearch) {
 					return;
 				}
-				if(this.list.length == this.params.total && this.list.length != 0){
+				if (this.list.length == this.params.total && this.list.length != 0) {
 					return;
 				}
 				this.loading = 'loading';
@@ -191,7 +190,7 @@
 				getSaleOrderList(params).then(result => {
 					let res = result.data;
 					this.isSearch = false;
-					if(res.status != 200){
+					if (res.status != 200) {
 						this.loading = 'noMore'
 						this.modal.content = res.msg;
 						this.modal.show = true;
@@ -218,6 +217,11 @@
 				}).catch(error => {
 					this.isSearch = false;
 					this.loading = 'noMore';
+					if (error.status == 403) {
+						this.modal.content = error.msg;
+						this.modal.show = true;
+						return;
+					}
 					console.log(error)
 				})
 			}
