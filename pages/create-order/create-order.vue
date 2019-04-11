@@ -8,10 +8,7 @@
 				</view>
 				<view class="collect-money-input">
 					<text class="font-big">￥</text>
-					<input type="number" v-model="totalMoney" focus="true" />
-					<!-- placeholder-class="placeholder-class" -->
-					<!-- 修改placeholder的样式大小 -->
-					<!-- placeholder="点击输入金额" -->
+					<input type="number" v-model="totalMoney" focus="true" placeholder="点击输入金额" />
 				</view>
 				<!-- <view class="collect-money-remark">注：建议本次收款金额不能大于10000</view> -->
 			</view>
@@ -21,12 +18,18 @@
 					发货方式:
 				</view>
 				<view class="btn-group">
-					<view class="btn mar btn-active">自提</view>
-					<view class="btn mar">物流</view>
+					<view class="btn mar">
+						<image :src="icon_success" style="width: 40upx; height: 40upx;"></image>
+						自提
+					</view>
+					<view :class="deliveryType == 2? 'btn mar btn-active':'btn mar '" @tap="deliveryType=2">
+						<image :src="icon_success" style="width: 40upx; height: 40upx;"></image>
+						物流
+					</view>
 				</view>
 			</view>
-			<view class="deliver-goods-submit" @click="cashierAddAction">
-				<button class="submit" type="primary"  size="mini">确认</button>
+			<view class="deliver-goods-submit">
+				<button @tap="cashierAddAction" class="submit" type="primary"  size="mini">确认</button>
 			</view>
 		</view>
 		<view class="footer">
@@ -39,55 +42,77 @@
 				<view class="pay">
 					<view class="pay-title">
 						使用支付宝、淘宝或阿里巴巴APP扫一扫
-						<image class="pay-title-close" @click="toclose()" :src="icon_close" style="width: 20px; height: 20px;"></image>
+						<image class="pay-title-close" @click="toclose()" :src="icon_close" style="width: 40upx; height: 40upx;"></image>
 					</view>
 					<view class="pay-info">
-						<view class="qrcode" v-if="detailsData.baseInfo.qrCode">
-							<uni-app-qrcode :size="300" :val="detailsData.baseInfo.qrCode" :loadMake="true" :onval="true" />
+						<view class="pay-info-qrcode">
+							<uni-app-qrcode :size="300" :val="detailsData.baseInfo.qrCode" :onval="true" />
 						</view>
 						<view class="pay-info-company">{{detailsData.baseInfo.customerName}}</view>
 						<view class="pay-info-status">
-							<image :src="icon_rest" style="width: 20px; height: 20px;"></image>
-							<text @tap="getSaleOrderInfoAction()">刷新</text>{{paymentInfoPayState}}
+							<template v-if="!paymentInfoPayState">
+								<image @tap="getSaleOrderInfoAction()" :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
+								<text @tap="getSaleOrderInfoAction()" style="color:#218FFF">刷新</text> 支付状态
+							</template>
+							<template v-else>
+								<image @tap="getSaleOrderInfoAction()" :src="icon_ok" style="width: 30upx; height: 30upx;"></image>
+								扫码成功, <text style="color:#218FFF">待支付</text>
+							</template>
 						</view>
 						<view class="pay-info-money">
-							付款金额：￥<text>100,5.00</text>
+							付款金额：￥<text>{{detailsData.paymentInfo.tradingTotalAmount}}</text>
 						</view>
 						<view class="pay-info-icon">
-							<image :src="icon_zfb" style="width: 20px; height: 20px;"></image>
-							<image :src="icon_zfb" style="width: 20px; height: 20px;"></image>
-							<image :src="icon_alibaba" style="width: 20px; height: 20px;"></image>
+							<image :src="icon_zfb" style="width: 100upx; height: 40upx;"></image>
+							<image :src="icon_taobao" style="width: 100upx; height: 40upx;"></image>
+							<image :src="icon_alibaba" style="width: 100upx; height: 40upx;"></image>
 						</view>
 					</view>
 				</view>
 			</view>
 		</lvvPopup>
+		
+		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show"></neil-modal>
 	</view>
 </template>
 
 <script>
 	import lvvPopup from '@/components/lvv-popup/lvv-popup.vue'
-	import {getSaleOrderInfo,cashierAdd} from '@/common/api/saleOrder'
+	import { cashierAdd, getSaleOrderInfo } from '@/common/api/saleOrder/index'
 	import uniAppQrcode from "@/components/uni-app-qrcode/uni-app-qrcode.vue"
+	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
-		components:{lvvPopup,uniAppQrcode},
+		components:{lvvPopup,uniAppQrcode,neilModal},
+		onHide(){
+			console.warn('onHide')
+			clearInterval(this.timer)
+		},
+		onUnload(){
+			console.warn('onUnload')
+			clearInterval(this.timer)
+		},
 		data() {
 			return {
 				saleOrder:'',
-				totalMoney:'',
+				// 定时器
+				timer:null,
+				totalMoney:1,
 				// 1自提 2物流
-				deliveryType:1,
+				deliveryType:2,
 				detailsData:{
 					baseInfo:{},
 					logisticsInfo:{},
 					paymentInfo:{},
 					productInfo:{},
 					productInfoTotal:{}
+				},
+				modal:{
+					show:false,
+					content:''
 				}
 			};
 		},
 		computed:{
-			
 			icon_close() {
 				return this.$CDN('icon_close.png');
 			},
@@ -96,6 +121,9 @@
 			},
 			icon_zfb() {
 				return this.$CDN('icon_zfb.png');
+			},
+			icon_taobao() {
+				return this.$CDN('icon_taobao.png');
 			},
 			icon_rest() {
 				return this.$CDN('icon_rest.png');
@@ -106,33 +134,73 @@
 			icon_money() {
 				return this.$CDN('icon_money.png');
 			},
+			icon_success() {
+				return this.$CDN('icon_success.png');
+			},
+			icon_ok() {
+				return this.$CDN('icon_ok.png');
+			},
 			paymentInfoPayState() {
-			  return this.detailsData.paymentInfo.payState == 0 ? '待付款':'已付款'
+				// 0待付款 1已付款 2已扫码未付款 
+			    return this.detailsData.paymentInfo.payState == 2
 			}
 		},
 		methods:{
 			// 显示弹出框
 			toshow(){
+				console.warn('toshow')
+				// clearInterval(this.timer)
 				this.$refs.lvvpopref.show();
 			},
 			// 关闭弹出框
 			toclose(){
+				console.warn('toclose')
+				// 关闭轮询刷新二维码
+				clearInterval(this.timer)
 				this.$refs.lvvpopref.close();
 			},
 			// 
 			async getSaleOrderInfoAction(){
-				let res = await getSaleOrderInfo(this.saleOrder,0)
+				let res = await getSaleOrderInfo({saleOrder:this.saleOrder,state:0})
+				// XHD1904021525420001
+				// let res = await getSaleOrderInfo({saleOrder:'XHD1904111607440001',state:0})
+				res = res.data
+				if(res.status == 403) {
+					this.modal.show = true
+					this.modal.content = res.msg
+				}
 				if (res.status !== 200) return
 				this.detailsData.baseInfo = res.data.baseInfo || {}
 				this.detailsData.logisticsInfo = res.data.logisticsInfo || {}
 				this.detailsData.paymentInfo = res.data.paymentInfo || {}
 				this.detailsData.productInfo = res.data.productInfo || []
 				this.detailsData.productInfoTotal = res.data.productInfoTotal || {}
+				// 如果支付成功,停止定时器，跳轉頁面
+				if(this.detailsData.paymentInfo.payState == 1){
+					clearInterval(this.timer)
+					uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + detailsData.paymentInfo.tradingTotalAmount})
+					return;
+				}
 			},
 			async cashierAddAction(){
-				let res = await cashierAdd(this.totalMoney,0)
-				if (res.status !== 200) return
-				this.getSaleOrderInfoAction()
+				if(!this.totalMoney){
+					this.modal.show = true
+					this.modal.content = '请输入收款金额'
+					return;
+				}
+				let res = await cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
+				res = res.data
+				if(res.status == 403) {
+					this.modal.show = true
+					this.modal.content = res.msg
+				}
+				if (res.status !== 200) return;
+				this.saleOrder = res.data
+			    this.getSaleOrderInfoAction()
+				// 轮询获取二维码
+				this.timer = setInterval(() => {
+					this.getSaleOrderInfoAction()
+				}, 3000)
 				this.toshow()
 			},
 			routerTo(url){
@@ -143,11 +211,11 @@
 </script>
 
 <style lang="less" scoped>
-	page,.layout{
+	page{
 		min-height:100vh;
-		background: #f4f4f4;
 	}
 	.layout{
+		min-height:92vh;
 		display: flex;
 		flex-direction: column;
 		font-family: PingFangSC-Medium;
@@ -178,6 +246,7 @@
 			padding-right: 24upx;
 		}
 		input{
+			height:35px;
 			font-size: 30px;
 			color: #444444;
 			flex: 1;
@@ -208,15 +277,29 @@
 		text-align: center;
 	}
 	.btn{
+		position:relative;
 		display: inline-block;
 		padding: 10upx 0;
 		width: 176upx;
 		text-align: center;
 		background: #FFFFFF;
-		border: 1px solid #D9D9D9;
+		border: 1upx solid #D9D9D9;
 		border-radius: 5upx;
 		font-size: 14px;
 		color: #666666;
+		image{
+			display:none
+		}
+	}
+	.btn-active{
+		border: 1upx solid #4390E9;
+		color: #4390E9;
+		image{
+			position:absolute;
+			display:block;
+			top:-20upx;
+			right:-20upx;
+		}
 	}
 	.mar{
 		margin:0 30upx ;
@@ -270,9 +353,9 @@
 		align-items: center;
 		background: #fff;
 	}
-	.qrcode{
-		width: 300upx;
-		height: 300upx;
+	.pay-info-qrcode{
+// 		width: 300upx;
+// 		height: 300upx;
 		margin:40upx 0 20upx 0;
 	}
 	.pay-info-company{
@@ -281,7 +364,6 @@
 	}
 	.pay-info-status{
 		display: flex;
-		justify-items: center;
 		align-items: center;
 		margin:52upx 0;
 		font-size: 12px;
@@ -299,7 +381,7 @@
 		}
 	}
 	.pay-info-icon{
-		margin:72upx 0 30upx 0;
+		margin:72upx 0 40upx 0;
 		image{
 			margin:0 47upx;
 		}

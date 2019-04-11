@@ -67,6 +67,11 @@
 				}, 1000);
 				let res = await verificationSend({ check: 'login', phone: this.formParams.phone });
 				res = res.data;
+				
+				if(res.status == 403) {
+					this.modal.show = true
+					this.modal.content = res.msg
+				}
 				if (res.status !== 200) return;
 			},
 			async login() {
@@ -77,8 +82,17 @@
 					this.modal.show = true;
 					return;
 				}
+				if(!this.verification){
+					this.modal.content = '验证码'
+					this.modal.show = true
+					return;
+				}
 				let res = await verification(this.formParams);
 				res = res.data;
+				if(res.status == 403) {
+					this.modal.show = true
+					this.modal.content = res.msg
+				}
 				if (res.status !== 200) return
 				// #ifdef MP-ALIPAY
 					my.getAuthCode({
@@ -113,19 +127,22 @@
 			},
 			async binding(phone,verification,alipayAppletAuthId){
 				let res = await appletAuthBinding(phone,verification,alipayAppletAuthId);
+				if(res.status == 403) {
+					this.modal.show = true
+					this.modal.content = res.msg
+				}
 			}
 		}
 	}
 </script>
 
 <style lang="less">
-	page,
-	.layout {
+	page,{
 		min-height: 100vh;
 		background: #fff;
 	}
-
 	.layout {
+		min-height:92vh;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
