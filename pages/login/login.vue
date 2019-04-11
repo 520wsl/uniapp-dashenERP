@@ -81,19 +81,16 @@
 				res = res.data;
 				if (res.status !== 200) return
 				// #ifdef MP-ALIPAY
-					let alipayAppletAuthId;
-					uni.getStorage({
-						key:'alipayAppletAuthId',
-						success:(res)=>{
-							console.log(res,'已登录状态')
-							alipayAppletAuthId = res.data
-						}
-					})
-					this.binding({
-						phone: this.formParams.phone,
-						verification: this.formParams.verification,
-						alipayAppletAuthId
-					})
+					my.getAuthCode({
+					  scopes: 'auth_base',
+					  success: (res) => {
+						this.binding({
+							phone: this.formParams.phone,
+							verification: this.formParams.verification,
+							alipayAppletAuthId:res.authCode
+						})
+					  },
+					});
 				// #endif
 				// 只有一家客户
 				if(res.data.memberId){
