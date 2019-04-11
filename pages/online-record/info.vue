@@ -20,7 +20,7 @@
 				<text>{{info.baseInfo && info.baseInfo.buyerId?info.baseInfo.buyerId:''}}</text>
 			</view>
 			<view class="qrcode" v-if="info.baseInfo && info.baseInfo.qrCode">
-				<uni-app-qrcode :size="318" :val="info.baseInfo.qrCode" :loadMake="true" :onval="true" />
+				<uni-app-qrcode :size="318" :val="info.baseInfo.qrCode" :loadMake="true" :onval="true" :lv="3" />
 			</view>
 		</view>
 		<view :class="isShowProductInfo?'product product-change':'product'">
@@ -140,6 +140,12 @@
 					info.baseInfo.createdAtTime = formatTime(info.baseInfo.created, "YYYY-MM-DD HH:mm:SS");
 					info.baseInfo.deliveryTypeName = info.baseInfo.deliveryType == 1 ? '自提' : '物流';
 					this.info = info;
+				}).catch(error => {
+					if (error.status == 403) {
+						this.modal.content = error.msg;
+						this.modal.show = true;
+						return;
+					}
 				})
 			}
 		}
@@ -180,6 +186,8 @@
 			width: 318upx;
 			margin: 17upx auto 0;
 			padding: 22upx 24upx;
+			display: flex;
+			justify-content: center;
 		}
 
 		.info-top-item {
