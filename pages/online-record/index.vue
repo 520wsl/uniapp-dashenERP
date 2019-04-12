@@ -258,7 +258,7 @@
 				border-style: solid;
 				border-color: #979797 transparent transparent transparent;
 				position: absolute;
-				top: 35upx;
+				top: 30upx;
 				right: 40upx;
 			}
 
@@ -269,16 +269,15 @@
 				border-style: solid;
 				border-color: #fff transparent transparent transparent;
 				position: absolute;
-				top: 35upx;
+				top: 30upx;
 				right: 42upx;
 			}
 		}
 	}
 
 	.transaction-list {
-		margin-top: 10upx;
 		background: #fff;
-
+		border-top: 10upx solid #f4f4f4;
 		&-item {
 			border-bottom: 5upx solid #f4f4f4;
 
