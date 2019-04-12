@@ -11,28 +11,28 @@ export const CDN = name => {
  * @param result String   等待对比成功后返回的值,默认value
  */
 export const getArrValue = (
-	arr = [],
-	key = "",
-	find = "key",
-	result = "value"
+    arr = [],
+    key = "",
+    find = "key",
+    result = "value"
 ) => {
-	let value = "";
-	if (!arr.length) return;
+    let value = "";
+    if (!arr.length) return;
 
-	arr.map(function(item) {
-		if (item[find] === key) {
-			value = item[result];
-		}
-	});
-	return value;
+    arr.map(function (item) {
+        if (item[find] === key) {
+            value = item[result];
+        }
+    });
+    return value;
 };
-export const logout = (val)=>{
-	let url = val || '/pages/login/login'
-	uni.removeStorage({
-		key: 'storage_key',
-		success: (res) => {
-			uni.redirectTo({ url});
-			console.log('退出成功')
-		}
-	});
+// 退出登录 并跳到只等页面
+export const logOut = (url = '/pages/login/login') => {
+    uni.removeStorage({
+        key: 'userInfo',
+        complete: () => {
+            uni.reLaunch({url});
+            console.log('退出成功')
+        }
+    });
 }
