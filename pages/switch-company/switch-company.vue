@@ -55,8 +55,11 @@
 </script>
 
 <style lang="less" scoped>
+	page{
+		height: 100%;
+	}
 	.layout{
-		height: 100vh;
+		height: 100%;
 		font-family: PingFangSC-Semibold;
 	}
 	.company-item{
