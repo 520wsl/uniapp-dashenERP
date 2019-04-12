@@ -82,8 +82,8 @@
 					this.modal.show = true;
 					return;
 				}
-				if(!this.verification){
-					this.modal.content = '验证码'
+				if(!this.formParams.verification){
+					this.modal.content = '请输入验证码'
 					this.modal.show = true
 					return;
 				}
