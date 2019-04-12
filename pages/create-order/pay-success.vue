@@ -9,16 +9,14 @@
 				<image :src="icon_again" style="width:28upx;height:28upx"></image>
 			</view>
 		</view>
-		<view class="footer">
-			<text @tap="routerTo('/pages/online-record/index')">交易记录</text>
-			|
-			<text @tap="routerTo('/pages/switch-company/switch-company')">切换店铺</text>
-		</view>
+		<textTab></textTab>
 	</view>
 </template>
 
 <script>
+	import textTab from "@/components/public/text-tab.vue"
 	export default {
+		components:{textTab},
 		onLoad(option){
 			this.money = option.money
 		},
@@ -47,12 +45,9 @@
 </script>
 
 <style lang="less" scoped>
-	page,.layout{
-		min-height:100vh;
-		background: #f4f4f4;
-	}
 	.layout{
 		display: flex;
+		background: #f4f4f4;
 		flex-direction: column;
 		text-align:center;
 		font-family: PingFangSC-Medium;

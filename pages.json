@@ -4,7 +4,7 @@
 		{
 			"path": "pages/create-order/create-order",
 			"style": {
-				"navigationBarTitleText": "收款"
+				"navigationBarTitleText": "大昇ERP收银台"
 			}
 		},
 		{
@@ -28,7 +28,7 @@
 		{
 			"path": "pages/switch-company/switch-company",
 			"style": {
-				"navigationBarTitleText": "选择公司"
+				"navigationBarTitleText": "选择登录店铺"
 			}
 		},
 		{
@@ -52,7 +52,7 @@
 		{
 			"path": "pages/create-order/pay-success",
 			"style": {
-				"navigationBarTitleText": "支付成功"
+				"navigationBarTitleText": "大昇ERP收银台"
 			}
 		}
 	],
