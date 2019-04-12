@@ -251,6 +251,7 @@
 	.product-change {
 		height: auto;
 		top: 0upx;
+		overflow-y: auto;
 
 		.product-title {
 			& .arrow-big {
