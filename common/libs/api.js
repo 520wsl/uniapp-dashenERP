@@ -92,9 +92,9 @@ export default {
 				// 统一的响应日志记录
 				_reslog(response)
 				if (statusCode === 200) { //成功
-					resolve(response);
+					resolve(response.data);
 				} else {
-					reject(response)
+					reject(response.data)
 				}
 			}
 
