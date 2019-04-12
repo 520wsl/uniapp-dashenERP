@@ -32,11 +32,7 @@
 				<button @tap="cashierAddAction" class="submit" type="primary"  size="mini">确认</button>
 			</view>
 		</view>
-		<view class="footer">
-			<text @tap="routerTo('/pages/online-record/index')">交易记录</text>
-			|
-			<text @tap="routerTo('/pages/switch-company/switch-company')">切换店铺</text>
-		</view>
+		<textTab></textTab>
 		<lvvPopup position="top" ref="lvvpopref">
 			<view style="width: 100%;height: 100%;background: #f4f4f4;position: absolute;left:0;">
 				<view class="pay">
@@ -78,8 +74,9 @@
 	import lvvPopup from '@/components/lvv-popup/lvv-popup.vue'
 	import { cashierAdd, getSaleOrderInfo } from '@/common/api/saleOrder/index'
 	import uniAppQrcode from "@/components/uni-app-qrcode/uni-app-qrcode.vue"
+	import textTab from "@/components/public/text-tab.vue"
 	export default {
-		components:{lvvPopup,uniAppQrcode},
+		components:{lvvPopup,uniAppQrcode,textTab},
 		onHide(){
 			console.warn('onHide')
 			clearInterval(this.timer)
@@ -155,9 +152,6 @@
 			// 
 			async getSaleOrderInfoAction(){
 				let res = await getSaleOrderInfo({saleOrder:this.saleOrder,state:0})
-				// XHD1904021525420001
-				// let res = await getSaleOrderInfo({saleOrder:'XHD1904111607440001',state:0})
-				res = res.data
 				if(res.status == 403) {
 					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
@@ -180,34 +174,27 @@
 					return;
 				}
 				let res = await cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
-				res = res.data
 				if(res.status == 403) {
 					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 				if (res.status !== 200) return;
-				this.saleOrder = res.data
 			    this.getSaleOrderInfoAction()
 				// 轮询获取二维码
 				this.timer = setInterval(() => {
 					this.getSaleOrderInfoAction()
 				}, 3000)
 				this.toshow()
-			},
-			routerTo(url){
-				uni.redirectTo({ url });
 			}
 		}
 	}
 </script>
 
 <style lang="less" scoped>
-	page{
-		min-height:100vh;
-	}
 	.layout{
-		min-height:92vh;
+		height: 100vh;
 		display: flex;
 		flex-direction: column;
+		background: #f4f4f4;
 		font-family: PingFangSC-Medium;
 	}
 	.collect-money{
@@ -306,15 +293,6 @@
 	}
 	.main{
 		flex: 1
-	}
-	.footer{
-		padding:40upx 0;
-		text-align: center;
-		font-size: 26upx;
-		color: #999999;
-		text{
-			margin:0 20upx;
-		}
 	}
 	// 这里是弹窗的页面
 	.pay{

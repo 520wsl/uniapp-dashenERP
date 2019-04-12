@@ -1,7 +1,7 @@
 <template>
 	<view class="layout">
 		<image class="logo" :src="logo_dasheng"></image>
-		<text class="title">欢迎登录大昇收银台</text>
+		<text class="title">欢迎登录大昇ERP</text>
 		<view class="login-form">
 			<view class="login-form-input flex-layout">
 				<input v-model="formParams.phone" type="number" focus="true" placeholder="手机号" />
@@ -55,8 +55,6 @@
 					}
 				}, 1000);
 				let res = await verificationSend({ check: 'login', phone: this.formParams.phone });
-				res = res.data;
-				
 				if(res.status == 403) {
 					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
@@ -74,7 +72,6 @@
 					return;
 				}
 				let res = await verification(this.formParams);
-				res = res.data;
 				if(res.status == 403) {
 					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
@@ -121,12 +118,9 @@
 </script>
 
 <style lang="less">
-	page,{
-		min-height: 100vh;
-		background: #fff;
-	}
 	.layout {
-		min-height:92vh;
+		height: 100vh;
+		background: #fff;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
