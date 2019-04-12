@@ -183,8 +183,7 @@
 				}
 				this.loading = 'loading';
 				this.isSearch = true;
-				getSaleOrderList(params).then(result => {
-					let res = result.data;
+				getSaleOrderList(params).then(res => {
 					this.isSearch = false;
 					if (res.status != 200) {
 						this.loading = 'noMore'
@@ -210,10 +209,8 @@
 						this.loading = 'more'
 					}
 				}).catch(error => {
-					error = error.data;
 					this.isSearch = false;
 					this.loading = 'noMore';
-					console.log(error)
 					if (error.status == 403) {
 						uni.showModal({ title: '提示', content: error.msg, showCancel:false });
 						return;
