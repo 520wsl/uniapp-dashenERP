@@ -38,8 +38,6 @@
 			</view>
 		</view>
 		<uni-load-more :status="loading"></uni-load-more>
-		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show">
-		</neil-modal>
 	</view>
 </template>
 
@@ -56,7 +54,6 @@
 	} from '@/common/api/saleOrder/index.js';
 	import mpvuePicker from "@/components/mpvue-picker/mpvue-picker.vue"
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
-	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
 		data() {
 			return {
@@ -133,8 +130,7 @@
 		},
 		components: {
 			uniLoadMore,
-			mpvuePicker,
-			neilModal
+			mpvuePicker
 		},
 		computed: {},
 		onLoad() {
@@ -192,8 +188,7 @@
 					this.isSearch = false;
 					if (res.status != 200) {
 						this.loading = 'noMore'
-						this.modal.content = res.msg;
-						this.modal.show = true;
+						uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 						return;
 					}
 					this.params.pageNum = this.params.pageNum + 1;
@@ -215,14 +210,14 @@
 						this.loading = 'more'
 					}
 				}).catch(error => {
+					error = error.data;
 					this.isSearch = false;
 					this.loading = 'noMore';
+					console.log(error)
 					if (error.status == 403) {
-						this.modal.content = error.msg;
-						this.modal.show = true;
+						uni.showModal({ title: '提示', content: error.msg, showCancel:false });
 						return;
 					}
-					console.log(error)
 				})
 			}
 		}
