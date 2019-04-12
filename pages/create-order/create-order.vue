@@ -71,8 +71,6 @@
 				</view>
 			</view>
 		</lvvPopup>
-		
-		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show"></neil-modal>
 	</view>
 </template>
 
@@ -80,9 +78,8 @@
 	import lvvPopup from '@/components/lvv-popup/lvv-popup.vue'
 	import { cashierAdd, getSaleOrderInfo } from '@/common/api/saleOrder/index'
 	import uniAppQrcode from "@/components/uni-app-qrcode/uni-app-qrcode.vue"
-	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
-		components:{lvvPopup,uniAppQrcode,neilModal},
+		components:{lvvPopup,uniAppQrcode},
 		onHide(){
 			console.warn('onHide')
 			clearInterval(this.timer)
@@ -90,10 +87,6 @@
 		onUnload(){
 			console.warn('onUnload')
 			clearInterval(this.timer)
-		},
-		created(){
-// 			console.warn(uni.showToast)
-// 			uni.showToast({ icon: 'loading', title: '请输入用户名' });
 		},
 		data() {
 			return {
@@ -109,10 +102,6 @@
 					paymentInfo:{},
 					productInfo:{},
 					productInfoTotal:{}
-				},
-				modal:{
-					show:false,
-					content:''
 				}
 			};
 		},
@@ -170,8 +159,7 @@
 				// let res = await getSaleOrderInfo({saleOrder:'XHD1904111607440001',state:0})
 				res = res.data
 				if(res.status == 403) {
-					this.modal.show = true
-					this.modal.content = res.msg
+					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 				if (res.status !== 200) return
 				this.detailsData.baseInfo = res.data.baseInfo || {}
@@ -188,15 +176,13 @@
 			},
 			async cashierAddAction(){
 				if(!this.totalMoney){
-					this.modal.show = true
-					this.modal.content = '请输入收款金额'
+					uni.showModal({ title: '提示', content: '请输入收款金额', showCancel:false });
 					return;
 				}
 				let res = await cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
 				res = res.data
 				if(res.status == 403) {
-					this.modal.show = true
-					this.modal.content = res.msg
+					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 				if (res.status !== 200) return;
 				this.saleOrder = res.data
@@ -315,6 +301,7 @@
 		margin:30upx 0;
 		width: 260upx;
 		height: 60upx;
+		font-size:26upx;
 		line-height: 60upx;
 	}
 	.main{
