@@ -157,7 +157,7 @@
 	}
 
 	.title {
-		font-size: 14px;
+		font-size: 28upx;
 		color: #4C4C4C;
 	}
 
@@ -174,7 +174,7 @@
 		margin-right: auto;
 		height: 100upx;
 		line-height: 100upx;
-		font-size: 12px;
+		font-size: 22upx;
 		color: #218FFF;
 	}
 
@@ -186,7 +186,7 @@
 			flex: 1;
 			height: 100upx;
 			padding-left: 3upx;
-			font-size: 15px;
+			font-size: 30upx;
 			color: #444;
 		}
 	}

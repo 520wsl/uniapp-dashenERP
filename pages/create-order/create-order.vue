@@ -91,12 +91,16 @@
 			console.warn('onUnload')
 			clearInterval(this.timer)
 		},
+		created(){
+// 			console.warn(uni.showToast)
+// 			uni.showToast({ icon: 'loading', title: '请输入用户名' });
+		},
 		data() {
 			return {
 				saleOrder:'',
 				// 定时器
 				timer:null,
-				totalMoney:1,
+				totalMoney:0,
 				// 1自提 2物流
 				deliveryType:2,
 				detailsData:{
@@ -228,7 +232,7 @@
 	.collect-money-title{
 		display:flex;
 		align-items:center;
-		font-size: 14px;
+		font-size: 28upx;
 		color: #444444;
 		& > image{
 			margin-right:20upx;
@@ -241,19 +245,19 @@
 		// justify-content: center;
 		align-items: center;
 		.font-big{
-			font-size: 26px;
+			font-size: 52upx;
 			color: #444444;
 			padding-right: 24upx;
 		}
 		input{
-			height:35px;
-			font-size: 30px;
+			height:70upx;
+			font-size: 60upx;
 			color: #444444;
 			flex: 1;
 		}
 	}
 	.collect-money-remark{
-		font-size: 12px;
+		font-size: 24upx;
 		color: #999999;
 	}
 	// 发货
@@ -265,7 +269,7 @@
 	.deliver-goods-title{
 		display:flex;
 		align-items:center;
-		font-size: 14px;
+		font-size: 28upx;
 		color: #444444;
 		& > image{
 			margin-right:20upx;
@@ -285,7 +289,7 @@
 		background: #FFFFFF;
 		border: 1upx solid #D9D9D9;
 		border-radius: 5upx;
-		font-size: 14px;
+		font-size: 28upx;
 		color: #666666;
 		image{
 			display:none
@@ -319,7 +323,7 @@
 	.footer{
 		padding:40upx 0;
 		text-align: center;
-		font-size: 13px;
+		font-size: 26upx;
 		color: #999999;
 		text{
 			margin:0 20upx;
@@ -336,7 +340,7 @@
 		height: 98upx;
 		height: 98upx;
 		line-height: 98upx;
-		font-size: 13px;
+		font-size: 26upx;
 		background: #FC8351;
 		color: #FFFFFF;
 		text-align: center;
@@ -359,24 +363,24 @@
 		margin:40upx 0 20upx 0;
 	}
 	.pay-info-company{
-		font-size: 12px;
+		font-size: 24upx;
 		color: #666666;
 	}
 	.pay-info-status{
 		display: flex;
 		align-items: center;
 		margin:52upx 0;
-		font-size: 12px;
+		font-size: 24upx;
 		color: #3F3F3F;
 		text{
 			margin-left: 20upx;
 		}
 	}
 	.pay-info-money{
-		ont-size: 15px;
+		font-size: 30upx;
 		color: #999999;
 		text{
-			font-size: 17px;
+			font-size: 34upx;
 			color: #000000;
 		}
 	}
