@@ -411,7 +411,7 @@
 
 	.mpvue-picker__hd {
 		display: flex;
-		padding: 9px 15px;
+		line-height: 40px;
 		background-color: #fff;
 		position: relative;
 		text-align: center;
@@ -432,6 +432,7 @@
 	}
 
 	.mpvue-picker__action {
+		padding: 0 15px;
 		display: block;
 		flex: 1;
 		color: #1aad19;
