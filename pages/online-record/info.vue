@@ -251,6 +251,7 @@
 	.product-change {
 		height: auto;
 		top: 0upx;
+		overflow-y: auto;
 
 		.product-title {
 			& .arrow-big {
@@ -302,7 +303,7 @@
 				background: #F7FCFF;
 				padding: 12upx 24upx 10upx;
 				color: #666;
-				font-size: 12upx;
+				font-size: 24upx;
 
 				.spec {
 					line-height: 34upx;
