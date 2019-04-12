@@ -150,40 +150,49 @@
 				this.$refs.lvvpopref.close();
 			},
 			// 
-			async getSaleOrderInfoAction(){
-				let res = await getSaleOrderInfo({saleOrder:this.saleOrder,state:0})
-				if(res.status == 403) {
-					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
-				}
-				if (res.status !== 200) return
-				this.detailsData.baseInfo = res.data.baseInfo || {}
-				this.detailsData.logisticsInfo = res.data.logisticsInfo || {}
-				this.detailsData.paymentInfo = res.data.paymentInfo || {}
-				this.detailsData.productInfo = res.data.productInfo || []
-				this.detailsData.productInfoTotal = res.data.productInfoTotal || {}
-				// 如果支付成功,停止定时器，跳轉頁面
-				if(this.detailsData.paymentInfo.payState == 1){
-					clearInterval(this.timer)
-					uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + detailsData.paymentInfo.tradingTotalAmount})
-					return;
-				}
+			getSaleOrderInfoAction(){
+				getSaleOrderInfo({saleOrder:this.saleOrder,state:0})
+					.then(res =>{
+						if (res.status !== 200) return
+						this.detailsData.baseInfo = res.data.baseInfo || {}
+						this.detailsData.logisticsInfo = res.data.logisticsInfo || {}
+						this.detailsData.paymentInfo = res.data.paymentInfo || {}
+						this.detailsData.productInfo = res.data.productInfo || []
+						this.detailsData.productInfoTotal = res.data.productInfoTotal || {}
+						// 如果支付成功,停止定时器，跳轉頁面
+						if(this.detailsData.paymentInfo.payState == 1){
+							clearInterval(this.timer)
+							uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + detailsData.paymentInfo.tradingTotalAmount})
+							return;
+						}
+					})
+					.catch(err=>{
+						if(err.status == 403) {
+							uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+						}
+					})
 			},
-			async cashierAddAction(){
+			cashierAddAction(){
 				if(!this.totalMoney){
 					uni.showModal({ title: '提示', content: '请输入收款金额', showCancel:false });
 					return;
 				}
-				let res = await cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
-				if(res.status == 403) {
-					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
-				}
-				if (res.status !== 200) return;
-			    this.getSaleOrderInfoAction()
-				// 轮询获取二维码
-				this.timer = setInterval(() => {
-					this.getSaleOrderInfoAction()
-				}, 3000)
-				this.toshow()
+				cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
+					.then(res=>{
+						if (res.status !== 200) return;
+						this.saleOrder = res.data
+						this.getSaleOrderInfoAction()
+						// 轮询获取二维码
+						this.timer = setInterval(() => {
+							this.getSaleOrderInfoAction()
+						}, 3000)
+						this.toshow()
+					})
+					.catch(err =>{
+						if(err.status == 403) {
+							uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+						}
+					})
 			}
 		}
 	}
