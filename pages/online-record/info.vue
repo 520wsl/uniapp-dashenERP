@@ -86,7 +86,7 @@
 				},
 				paymentStatusList: [{
 						key: 0,
-						value: '代支付'
+						value: '待支付'
 					},
 					{
 						key: 1,
@@ -124,8 +124,7 @@
 				let params = {
 					...this.params
 				}
-				getSaleOrderInfo(params).then(result => {
-					let res = result.data;
+				getSaleOrderInfo(params).then(res => {
 					if (res.status !== 200) {
 						uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 						return;
@@ -137,7 +136,6 @@
 					info.baseInfo.deliveryTypeName = info.baseInfo.deliveryType == 1 ? '自提' : '物流';
 					this.info = info;
 				}).catch(error => {
-					error = error.data
 					if (error.status == 403) {
 						uni.showModal({ title: '提示', content: error.msg, showCancel:false });
 						return;
