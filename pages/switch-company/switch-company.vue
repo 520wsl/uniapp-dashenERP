@@ -19,28 +19,36 @@
 			this.getCompanyListAction()
 		},
 		methods:{
-			async getCompanyListAction(){
-				let res = await getCompanyList({})
-				if(res.status == 403) {
-					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
-				}
-				if(res.status !== 200) return;
-				this.companyList = res.data
+			getCompanyListAction(){
+				getCompanyList()
+					.then((res)=>{
+						if(res.status !== 200) return;
+						this.companyList = res.data
+					})
+					.catch((err)=>{
+						if(err.status == 403) {
+							uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+						}
+					})
 			},
-			async switchLogin(memberId){
-				let res = await chooseCompany({memberId})
-				if(res.status == 403) {
-					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
-				}
-				if(res.status !== 200) return;
-				uni.setStorage({
-					key: 'userInfo',
-					data: res.data,
-					success: (res) => {
-						console.log(res, '存储成功')
-					}
-				})
-				uni.redirectTo({ url: '/pages/create-order/create-order' })
+			switchLogin(memberId){
+				chooseCompany({memberId})
+					.then(res=>{
+						if(res.status !== 200) return;
+						uni.setStorage({
+							key: 'userInfo',
+							data: res.data,
+							success: (res) => {
+								console.log(res, '存储成功')
+							}
+						})
+						uni.redirectTo({ url: '/pages/create-order/create-order' })
+					})
+					.catch(err=>{
+						if(err.status == 403) {
+							uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+						}
+					})
 			}
 		}
 	}

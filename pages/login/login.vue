@@ -37,7 +37,7 @@
 			}
 		},
 		methods: {
-			async getVerificationSend() {
+			getVerificationSend() {
 				// 验证码计时时间内不可操作
 				if (this.time < 120) return
 				// 验证参数
@@ -54,13 +54,14 @@
 						this.time = 120
 					}
 				}, 1000);
-				let res = await verificationSend({ check: 'login', phone: this.formParams.phone });
-				if(res.status == 403) {
-					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
-				}
-				if (res.status !== 200) return;
+				verificationSend({ check: 'login', phone: this.formParams.phone })
+					.catch(err=>{
+						if(err.status == 403) {
+							uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+						}
+					})
 			},
-			async login() {
+			login() {
 				// 验证参数
 				let phoneNotPass = /^1\d{10}$/.test(this.formParams.phone)
 				if (!phoneNotPass) {
@@ -71,47 +72,53 @@
 					uni.showModal({ title: '提示', content: '请输入验证码', showCancel:false });
 					return;
 				}
-				let res = await verification(this.formParams);
-				if(res.status == 403) {
-					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
-				}
-				if (res.status !== 200) return
-				// #ifdef MP-ALIPAY
-					my.getAuthCode({
-					  scopes: 'auth_base',
-					  success: (res) => {
-						this.binding({
-							phone: this.formParams.phone,
-							verification: this.formParams.verification,
-							alipayAppletAuthId:res.authCode
-						})
-					  },
-					});
-				// #endif
-				// 只有一家客户
-				if(res.data.memberId){
-					uni.setStorage({
-						key: 'userInfo',
-						data: res.data,
-						success: (res) => {
-							console.log(res, '存储成功')
+				verification(this.formParams)
+					.then(res=>{
+						if (res.status !== 200) return
+						// #ifdef MP-ALIPAY
+							my.getAuthCode({
+							  scopes: 'auth_base',
+							  success: (res) => {
+								this.binding({
+									phone: this.formParams.phone,
+									verification: this.formParams.verification,
+									alipayAppletAuthId:res.authCode
+								})
+							  },
+							});
+						// #endif
+						// 只有一家客户
+						if(res.data.memberId){
+							uni.setStorage({
+								key: 'userInfo',
+								data: res.data,
+								success: (res) => {
+									console.log(res, '存储成功')
+								}
+							})
+							uni.redirectTo({ url: '/pages/create-order/create-order' })
+						}
+						// 如果有多家公司购买了ERP,跳转选择公司页面
+						if (!res.data.memberId) {
+							uni.redirectTo({
+								url: '/pages/switch-company/switch-company'
+							})
+							return;
 						}
 					})
-					uni.redirectTo({ url: '/pages/create-order/create-order' })
-				}
-				// 如果有多家公司购买了ERP,跳转选择公司页面
-				if (!res.data.memberId) {
-					uni.redirectTo({
-						url: '/pages/switch-company/switch-company'
+					.catch(err=>{
+						if(err.status == 403) {
+							uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+						}
 					})
-					return;
-				}
 			},
-			async binding(phone,verification,alipayAppletAuthId){
-				let res = await appletAuthBinding(phone,verification,alipayAppletAuthId);
-				if(res.status == 403) {
-					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
-				}
+			binding(phone,verification,alipayAppletAuthId){
+				appletAuthBinding(phone,verification,alipayAppletAuthId)
+					.catch(err=>{
+						if(err.status == 403) {
+							uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+						}
+					})
 			}
 		}
 	}
