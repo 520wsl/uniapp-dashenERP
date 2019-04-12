@@ -86,7 +86,7 @@
 				},
 				paymentStatusList: [{
 						key: 0,
-						value: '代支付'
+						value: '待支付'
 					},
 					{
 						key: 1,
