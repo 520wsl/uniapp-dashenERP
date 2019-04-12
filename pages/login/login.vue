@@ -12,28 +12,18 @@
 			</view>
 			<button @click="login" class="login-form-submit">登录</button>
 		</view>
-		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show">
-		</neil-modal>
 	</view>
 </template>
 <script>
 	import api from "@/common/libs/api.request.js";
 	import { verificationSend } from '@/common/api/verification/index.js';
 	import { verification,appletAuthBinding } from '@/common/api/login/index.js';
-	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
-		components: {
-			neilModal
-		},
 		mounted() {},
 		data() {
 			return {
 				timer: null,
 				time: 120,
-				modal: {
-					show: false,
-					content: ''
-				},
 				formParams: {
 					phone: '',
 					verification: ''
@@ -53,8 +43,7 @@
 				// 验证参数
 				let ispass = /^1\d{10}$/.test(this.formParams.phone)
 				if (!ispass) {
-					this.modal.content = '请输入正确的手机号'
-					this.modal.show = true;
+					uni.showModal({ title: '提示', content: '请输入正确的手机号', showCancel:false });
 					return;
 				}
 				// 验证码计时器
@@ -69,8 +58,7 @@
 				res = res.data;
 				
 				if(res.status == 403) {
-					this.modal.show = true
-					this.modal.content = res.msg
+					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 				if (res.status !== 200) return;
 			},
@@ -78,20 +66,17 @@
 				// 验证参数
 				let phoneNotPass = /^1\d{10}$/.test(this.formParams.phone)
 				if (!phoneNotPass) {
-					this.modal.content = '请输入正确的手机号'
-					this.modal.show = true;
+					uni.showModal({ title: '提示', content: '请输入正确的手机号', showCancel:false });
 					return;
 				}
 				if(!this.formParams.verification){
-					this.modal.content = '请输入验证码'
-					this.modal.show = true
+					uni.showModal({ title: '提示', content: '请输入验证码', showCancel:false });
 					return;
 				}
 				let res = await verification(this.formParams);
 				res = res.data;
 				if(res.status == 403) {
-					this.modal.show = true
-					this.modal.content = res.msg
+					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 				if (res.status !== 200) return
 				// #ifdef MP-ALIPAY
@@ -128,8 +113,7 @@
 			async binding(phone,verification,alipayAppletAuthId){
 				let res = await appletAuthBinding(phone,verification,alipayAppletAuthId);
 				if(res.status == 403) {
-					this.modal.show = true
-					this.modal.content = res.msg
+					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 			}
 		}

@@ -1,24 +1,16 @@
 <template>
 	<view class="layout">
 		<view v-for="(el,index) in companyList" :key="index" @click="switchLogin(el.memberId)" class="company-item">{{el.companyName}}</view>
-		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show">
-		</neil-modal>
 	</view>
 </template>
 
 <script>
 	import api from "@/common/libs/api.request.js";
 	import { getCompanyList,chooseCompany } from '@/common/api/login/index.js';
-	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
-		components:{neilModal},
 		data() {
 			return {
-				companyList:[],
-				modal:{
-					show:false,
-					content:'',
-				}
+				companyList:[]
 			};
 		},
 		mounted(){
@@ -30,8 +22,7 @@
 				if(res.data.status !== 200) return;
 				res = res.data;
 				if(res.status == 403) {
-					this.modal.show = true
-					this.modal.content = res.msg
+					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 				this.companyList = res.data
 			},
@@ -39,8 +30,7 @@
 				let res = await chooseCompany({memberId})
 				res = res.data;
 				if(res.status == 403) {
-					this.modal.show = true
-					this.modal.content = res.msg
+					uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 				}
 				if(res.status !== 200) return;
 				uni.setStorage({
