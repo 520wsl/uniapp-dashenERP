@@ -38,7 +38,7 @@
 					<view class="item-info">
 						<view class="spec">{{item.specInfo}}</view>
 						<view class="price">
-							<text>{{item.price}}</text>
+							<text>{{'￥'+item.price}}</text>
 							<text>数量：{{item.orderNum}}</text>
 							<text class="red">{{'￥'+item.money}}</text>
 						</view>
@@ -48,7 +48,7 @@
 			<view class="product-total">
 				总计：
 				<text>货品：<text class="red">{{info.productInfoTotal && info.productInfoTotal.species?info.productInfoTotal.species:0}}种</text></text>
-				<text>数量：<text class="red">{{info.productInfoTotal && info.productInfoTotal.piece?info.productInfoTotal.piece:0}}种</text></text>
+				<text>数量：<text class="red">{{info.productInfoTotal && info.productInfoTotal.piece?info.productInfoTotal.piece:0}}件</text></text>
 			</view>
 		</view>
 	</view>
