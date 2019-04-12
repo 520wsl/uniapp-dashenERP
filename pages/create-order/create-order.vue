@@ -8,7 +8,14 @@
 				</view>
 				<view class="collect-money-input">
 					<text class="font-big">￥</text>
-					<input type="number" v-model="totalMoney" focus="true" placeholder="点击输入金额" />
+					<input
+						v-model="totalMoney"
+						type="digit"
+						focus="true"
+						adjust-position="true"
+						placeholder="点击输入金额"
+						placeholder-class="placeholder-class"
+					/>
 				</view>
 				<!-- <view class="collect-money-remark">注：建议本次收款金额不能大于10000</view> -->
 			</view>
@@ -31,6 +38,7 @@
 			<view class="deliver-goods-submit">
 				<button @tap="cashierAddAction" class="submit" type="primary"  size="mini">确认</button>
 			</view>
+			<view class="collect-money-disabled" style="margin-top:60upx;">为配合阿里系统升级，暂停自提功能，预计4月15日恢复正常</view>
 		</view>
 		<textTab></textTab>
 		<lvvPopup position="top" ref="lvvpopref">
@@ -44,11 +52,12 @@
 						<view class="pay-info-qrcode">
 							<uni-app-qrcode :size="300" :val="detailsData.baseInfo.qrCode" :onval="true" />
 						</view>
-						<view class="pay-info-company">{{detailsData.baseInfo.customerName}}</view>
+						
+						<view class="pay-info-company">{{company}}</view>
 						<view class="pay-info-status">
 							<template v-if="!paymentInfoPayState">
 								<image @tap="getSaleOrderInfoAction()" :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
-								<text @tap="getSaleOrderInfoAction()" style="color:#218FFF">刷新</text> 支付状态
+								<text @tap="getSaleOrderInfoAction()" style="color:#218FFF">刷新</text>，待支付
 							</template>
 							<template v-else>
 								<image @tap="getSaleOrderInfoAction()" :src="icon_ok" style="width: 30upx; height: 30upx;"></image>
@@ -85,12 +94,22 @@
 			console.warn('onUnload')
 			clearInterval(this.timer)
 		},
+		created(){
+			// this.company
+			uni.getStorage({
+				key:'userInfo',
+				success:(res)=>{
+					this.company = res.data.companyName
+				}
+			})
+		},
 		data() {
 			return {
 				saleOrder:'',
 				// 定时器
 				timer:null,
 				totalMoney:0,
+				company:'',
 				// 1自提 2物流
 				deliveryType:2,
 				detailsData:{
@@ -177,6 +196,14 @@
 					uni.showModal({ title: '提示', content: '请输入收款金额', showCancel:false });
 					return;
 				}
+				if(!/^(\d+|\d+\.\d{1,2})$/.test(this.totalMoney)){
+					uni.showModal({ title: '提示', content: '收款金额仅允许保留两位小数', showCancel:false });
+					return;
+				}
+				if(this.totalMoney>1000000){
+					uni.showModal({ title: '提示', content: '收款金额不得大于一百万', showCancel:false });
+					return;
+				}
 				cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
 					.then(res=>{
 						if (res.status !== 200) return;
@@ -199,8 +226,11 @@
 </script>
 
 <style lang="less" scoped>
+	page{
+		height: 100%;
+	}
 	.layout{
-		height: 100vh;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
 		background: #f4f4f4;
@@ -219,6 +249,10 @@
 		& > image{
 			margin-right:20upx;
 		}
+	}
+	// 设置input样式
+	.placeholder-class{
+		font-size:26upx;
 	}
 	.collect-money-input{
 		display: flex;
@@ -241,6 +275,18 @@
 	.collect-money-remark{
 		font-size: 24upx;
 		color: #999999;
+	}
+	.collect-money-disabled{
+		margin:0 20upx;
+		border: 2upx solid #ffe1de;
+		background-color: #fff2f0;
+		font-size: 24upx;
+		line-height: 32ipx;
+		color: #999999;
+		position: relative;
+		padding: 16upx 20upx;
+		border-radius: 8upx;
+		color: #515a6e;
 	}
 	// 发货
 	.deliver-goods{
