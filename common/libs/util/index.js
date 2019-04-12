@@ -26,3 +26,13 @@ export const getArrValue = (
 	});
 	return value;
 };
+export const logout = (val)=>{
+	let url = val || '/pages/login/login'
+	uni.removeStorage({
+		key: 'storage_key',
+		success: (res) => {
+			uni.redirectTo({ url});
+			console.log('退出成功')
+		}
+	});
+}
