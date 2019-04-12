@@ -51,8 +51,6 @@
 				<text>数量：<text class="red">{{info.productInfoTotal && info.productInfoTotal.piece?info.productInfoTotal.piece:0}}种</text></text>
 			</view>
 		</view>
-		<neil-modal :show="modal.show" title="提示" :content="modal.content" :auto-close="false" :show-cancel="false" @confirm="modal.show = !modal.show">
-		</neil-modal>
 	</view>
 </template>
 
@@ -67,7 +65,6 @@
 		getSaleOrderInfo
 	} from '@/common/api/saleOrder/index.js';
 	import uniAppQrcode from "@/components/uni-app-qrcode/uni-app-qrcode.vue"
-	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
 		data() {
 			return {
@@ -108,8 +105,7 @@
 			}
 		},
 		components: {
-			uniAppQrcode,
-			neilModal
+			uniAppQrcode
 		},
 		computed: {},
 		onLoad(option) {
@@ -119,6 +115,7 @@
 		},
 		onReachBottom() {},
 		methods: {
+			toBaiDu() {},
 			// 展示订单商品信息切换
 			changeShowInfo() {
 				this.isShowProductInfo = !this.isShowProductInfo;
@@ -130,8 +127,7 @@
 				getSaleOrderInfo(params).then(result => {
 					let res = result.data;
 					if (res.status !== 200) {
-						this.modal.content = res.msg;
-						this.modal.show = true;
+						uni.showModal({ title: '提示', content: res.msg, showCancel:false });
 						return;
 					}
 					let info = res.data;
@@ -141,9 +137,9 @@
 					info.baseInfo.deliveryTypeName = info.baseInfo.deliveryType == 1 ? '自提' : '物流';
 					this.info = info;
 				}).catch(error => {
+					error = error.data
 					if (error.status == 403) {
-						this.modal.content = error.msg;
-						this.modal.show = true;
+						uni.showModal({ title: '提示', content: error.msg, showCancel:false });
 						return;
 					}
 				})
