@@ -312,7 +312,7 @@
 
 		.status {
 			margin-top: 12upx;
-			font-size: 22upx;
+			font-size: 24upx;
 			color: #FC8351;
 		}
 	}
