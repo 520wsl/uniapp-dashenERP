@@ -11,6 +11,7 @@
 	import { getCompanyList,chooseCompany } from '@/common/api/login/index.js';
 	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
+		components:{neilModal},
 		data() {
 			return {
 				companyList:[]
@@ -60,9 +61,9 @@
 	.company-item{
 		height: 120upx;
 		line-height: 120upx;
-		border-bottom: 1px solid  #F4F4F4;
+		border-bottom: 2upx solid  #F4F4F4;
 		text-align: center;
-		font-size: 13px;
+		font-size: 26upx;
 		color: #666666;
 		/* letter-spacing: -0.31px; */
 	}
