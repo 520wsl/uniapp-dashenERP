@@ -20,7 +20,6 @@
 <script>
 	export default {
 		onLoad(option){
-			console.log(option)
 			this.money = option.money
 		},
 		data() {
