@@ -14,7 +14,11 @@
 		components:{neilModal},
 		data() {
 			return {
-				companyList:[]
+				companyList:[],
+				modal:{
+					show:false,
+					content:'',
+				}
 			};
 		},
 		mounted(){
