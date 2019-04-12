@@ -196,7 +196,7 @@
 					list.forEach(item => {
 						item.month = formatTime(item.createdAt, "MM月");
 						item.day = formatTime(item.createdAt, "DD");
-						item.time = formatTime(item.createdAt, "HH:mm:SS");
+						item.time = formatTime(item.createdAt, "HH:mm:ss");
 						if (item.money) {
 							item.money = '￥' + item.money;
 						}
