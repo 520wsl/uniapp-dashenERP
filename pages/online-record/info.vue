@@ -132,7 +132,7 @@
 					let info = res.data;
 					let payState = info && info.paymentInfo && info.paymentInfo.payState || 0;
 					this.paymentStatusName = getArrValue(this.paymentStatusList, payState);
-					info.baseInfo.createdAtTime = formatTime(info.baseInfo.created, "YYYY-MM-DD HH:mm:ss");
+					info.baseInfo.createdAtTime = formatTime(info.baseInfo.createdAt, "YYYY-MM-DD HH:mm:ss");
 					info.baseInfo.deliveryTypeName = info.baseInfo.deliveryType == 1 ? '自提' : '物流';
 					this.info = info;
 				}).catch(error => {
