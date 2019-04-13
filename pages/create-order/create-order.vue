@@ -13,7 +13,6 @@
 						type="digit"
 						focus="true"
 						maxlength="9"
-						adjust-position="true"
 						placeholder="请输入金额"
 						placeholder-class="input-placeholder"
 					/>
@@ -185,6 +184,7 @@
 						})
 						// 如果支付成功,停止定时器，跳轉頁面
 						if(this.detailsData.paymentInfo.payState == 1){
+							this.toclose()
 							clearInterval(this.timer)
 							uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + this.detailsData.paymentInfo.tradingTotalAmount})
 							return;
@@ -411,8 +411,8 @@
 		margin:52upx 0;
 		font-size: 24upx;
 		color: #3F3F3F;
-		text{
-			margin-left: 20upx;
+		image{
+			margin-right: 20upx;
 		}
 	}
 	.pay-info-money{
@@ -429,12 +429,4 @@
 			margin:0 47upx;
 		}
 	}
-	input::-webkit-input-placeholder{
-		font-size:26upx;}
-	input:-moz-placeholder{
-		font-size:26upx;}
-	input::-moz-placeholder{
-		font-size:26upx;}
-	input:-ms-input-placeholder{
-		font-size:26upx;}
 </style>
