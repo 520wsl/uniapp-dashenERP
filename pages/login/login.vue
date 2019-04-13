@@ -127,6 +127,7 @@
 <style lang="less" scoped>
 	page{
 		height: 100%;
+		overflow-y: auto;
 	}
 	.layout {
 		/* #ifdef MP-ALIPAY || MP-WEIXIN */
