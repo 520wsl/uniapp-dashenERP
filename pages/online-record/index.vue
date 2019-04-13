@@ -283,7 +283,6 @@
 
 			& .navigator {
 				padding: 24px 0;
-				display: block;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
