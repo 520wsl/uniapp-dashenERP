@@ -4,7 +4,7 @@
 		{
 			"path": "pages/create-order/create-order",
 			"style": {
-				"navigationBarTitleText": "大昇ERP收银台"
+				"navigationBarTitleText": "大昇收银台"
 			}
 		},
 		{
