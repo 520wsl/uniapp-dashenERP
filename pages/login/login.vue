@@ -1,7 +1,7 @@
 <template>
 	<view class="layout">
 		<image class="logo" :src="logo_dasheng"></image>
-		<text class="title">欢迎登录大昇ERP</text>
+		<text class="title">欢迎登录大昇收银台</text>
 		<view class="login-form">
 			<view class="login-form-input flex-layout">
 				<input v-model="formParams.phone" type="number" focus="true" placeholder="手机号" />
