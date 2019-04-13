@@ -53,7 +53,7 @@
 					</view>
 					<view class="pay-info">
 						<view class="pay-info-qrcode">
-							<uni-app-qrcode :size="300" :val="detailsData.baseInfo.qrCode" :onval="true" :lv="1"/>
+							<uni-app-qrcode :size="300" :val="detailsData.baseInfo.qrCode" :loadMake="true" :onval="true" :lv="1"/>
 						</view>
 						
 						<view class="pay-info-company">{{company}}</view>
