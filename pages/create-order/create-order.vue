@@ -3,7 +3,7 @@
 		<view class="main">
 			<view class="collect-money">
 				<view class="collect-money-title">
-					<image @click="toclose()" :src="icon_money" style="width: 40upx; height: 40upx;"></image>
+					<image @click="toclose()" :src="icon_money" style="width: 28upx; height: 28upx;"></image>
 					收款金额:
 				</view>
 				<view class="collect-money-input">
@@ -12,32 +12,33 @@
 						v-model="totalMoney"
 						type="digit"
 						focus="true"
+						maxlength="9"
 						adjust-position="true"
-						placeholder="点击输入金额"
-						placeholder-class="placeholder-class"
+						placeholder="请输入金额"
+						placeholder-class="input-placeholder"
 					/>
 				</view>
 				<!-- <view class="collect-money-remark">注：建议本次收款金额不能大于10000</view> -->
 			</view>
 			<view class="deliver-goods">
 				<view class="deliver-goods-title">
-					<image @click="toclose()" :src="icon_fahuo" style="width: 40upx; height: 40upx;"></image>
+					<image @click="toclose()" :src="icon_fahuo" style="width: 28upx; height: 28upx;"></image>
 					发货方式:
 				</view>
 				<view class="btn-group">
 					<view class="btn mar">
-						<image :src="icon_success" style="width: 40upx; height: 40upx;"></image>
+						<image :src="icon_success" style="width: 30upx; height: 30upx;"></image>
 						自提
 					</view>
 					<view :class="deliveryType == 2? 'btn mar btn-active':'btn mar '" @tap="deliveryType=2">
-						<image :src="icon_success" style="width: 40upx; height: 40upx;"></image>
+						<image :src="icon_success" style="width: 30upx; height: 30upx;"></image>
 						物流
 					</view>
 				</view>
 			</view>
 			<view class="deliver-goods-submit">
 				<view class="btn-submit"  @tap="cashierAddAction">
-					<image :src="icon_collect_money" style="width: 40upx; height: 40upx;"></image>
+					<image :src="icon_collect_money" style="width: 30upx; height: 30upx;"></image>
 					确认收款
 				</view>
 			</view>
@@ -57,14 +58,14 @@
 						</view>
 						
 						<view class="pay-info-company">{{company}}</view>
-						<view class="pay-info-status">
+						<view class="pay-info-status" @tap="getSaleOrderInfoAction()">
 							<template v-if="!paymentInfoPayState">
-								<image @tap="getSaleOrderInfoAction()" :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
-								<text @tap="getSaleOrderInfoAction()" style="color:#218FFF">刷新</text>，待支付
+								<image :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
+								<text style="color:#218FFF">刷新</text>，待支付
 							</template>
 							<template v-else>
-								<image @tap="getSaleOrderInfoAction()" :src="icon_ok" style="width: 30upx; height: 30upx;"></image>
-								扫码成功, <text style="color:#218FFF">待支付</text>
+								<image :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
+								扫码成功, <text style="color:#218FFF">等待支付</text>
 							</template>
 						</view>
 						<view class="pay-info-money">
@@ -72,8 +73,8 @@
 						</view>
 						<view class="pay-info-icon">
 							<image :src="icon_zfb" style="width: 100upx; height: 40upx;"></image>
-							<image :src="icon_taobao" style="width: 100upx; height: 40upx;"></image>
-							<image :src="icon_alibaba" style="width: 100upx; height: 40upx;"></image>
+							<image :src="icon_taobao" style="width: 80upx; height: 40upx;"></image>
+							<image :src="icon_alibaba" style="width: 120upx; height: 40upx;"></image>
 						</view>
 					</view>
 				</view>
@@ -102,7 +103,7 @@
 				saleOrder:'',
 				// 定时器
 				timer:null,
-				totalMoney:0,
+				totalMoney:'',
 				company:'',
 				// 1自提 2物流
 				deliveryType:2,
@@ -185,7 +186,7 @@
 						// 如果支付成功,停止定时器，跳轉頁面
 						if(this.detailsData.paymentInfo.payState == 1){
 							clearInterval(this.timer)
-							uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + detailsData.paymentInfo.tradingTotalAmount})
+							uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + this.detailsData.paymentInfo.tradingTotalAmount})
 							return;
 						}
 					})
@@ -205,7 +206,7 @@
 					return;
 				}
 				if(this.totalMoney>1000000){
-					uni.showModal({ title: '提示', content: '收款金额不得大于一百万', showCancel:false });
+					uni.showModal({ title: '提示', content: '单笔收款金额不得大于100万', showCancel:false });
 					return;
 				}
 				cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
@@ -259,7 +260,7 @@
 		}
 	}
 	// 设置input样式
-	.placeholder-class{
+	.input-placeholder{
 		font-size:26upx;
 	}
 	.collect-money-input{
@@ -319,11 +320,12 @@
 	.btn{
 		position:relative;
 		display: inline-block;
-		padding: 10upx 0;
+		height: 60upx;
 		width: 176upx;
+		line-height: 60upx;
 		text-align: center;
 		background: #FFFFFF;
-		border: 1upx solid #D9D9D9;
+		border: 2upx solid #D9D9D9;
 		border-radius: 5upx;
 		font-size: 28upx;
 		color: #666666;
@@ -332,13 +334,13 @@
 		}
 	}
 	.btn-active{
-		border: 1upx solid #4390E9;
+		border: 2upx solid #4390E9;
 		color: #4390E9;
 		image{
 			position:absolute;
 			display:block;
-			top:-20upx;
-			right:-20upx;
+			top:-15upx;
+			right:-15upx;
 		}
 	}
 	.mar{
@@ -351,7 +353,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin:30upx auto;
+		margin:50upx auto;
 		border-radius: 8upx;
 		width: 400upx;
 		height: 72upx;
@@ -394,6 +396,7 @@
 		background: #fff;
 	}
 	.pay-info-qrcode{
+		display: flex;
 // 		width: 300upx;
 // 		height: 300upx;
 		margin:40upx 0 20upx 0;
@@ -426,4 +429,12 @@
 			margin:0 47upx;
 		}
 	}
+	input::-webkit-input-placeholder{
+		font-size:26upx;}
+	input:-moz-placeholder{
+		font-size:26upx;}
+	input::-moz-placeholder{
+		font-size:26upx;}
+	input:-ms-input-placeholder{
+		font-size:26upx;}
 </style>

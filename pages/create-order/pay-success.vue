@@ -9,14 +9,11 @@
 				<image :src="icon_again" style="width:28upx;height:28upx"></image>
 			</view>
 		</view>
-		<textTab></textTab>
 	</view>
 </template>
 
 <script>
-	import textTab from "@/components/public/text-tab.vue"
 	export default {
-		components:{textTab},
 		onLoad(option){
 			this.money = option.money
 		},
@@ -65,9 +62,6 @@
 		display:flex;
 		flex-direction: column;
 		align-items: center;
-		image{
-			margin-left:20upx;
-		}
 	}
 	.icon_success{
 		margin:74upx 0 36upx 0;
@@ -89,14 +83,8 @@
 		font-size:26upx;
 		display:flex;
 		align-items:center;
-	}
-	.footer{
-		padding:40upx 0;
-		text-align: center;
-		font-size: 13px;
-		color: #999999;
-		text{
-			margin:0 20upx;
+		image{
+			margin-left:20upx;
 		}
 	}
 </style>

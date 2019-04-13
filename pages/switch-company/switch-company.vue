@@ -7,9 +7,9 @@
 			class="company-item"
 			:class="activeMemberId == el.memberId ?'company-item-active':''"
 		>
-			<image :src="icon_company" style="width: 45upx; height: 45upx;"></image>
+			<image :src="icon_company" style="width: 40upx; height: 40upx;"></image>
 			{{el.companyName}}
-			<image :src="icon_success" style="width: 45upx; height: 45upx;"></image>
+			<image :src="icon_success" style="width: 30upx; height: 30upx;"></image>
 		</view>
 	</view>
 </template>

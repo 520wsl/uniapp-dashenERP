@@ -63,23 +63,24 @@
         "usingComponents" : true
     },
     "h5" : {
-        "title" : "测试",
+        "title" : "大昇收银台",
         "devServer" : {
             "port" : 8080,
             "disableHostCheck" : true,
             "proxy" : {
                 "/api" : {
-                    "target" : "http://erp.sixi.com",
+                    "target" : "http://172.30.34.39:9101",
                     "changeOrigin" : true,
                     "secure" : false,
-					"pathRewrite": {
-					  "^/api": ""
-					}
+                    "pathRewrite" : {
+                        "^/api" : ""
+                    }
                 }
             }
         },
         "router" : {
             "mode" : "history"
-        }
+        },
+        "domain" : "https://erp-h5.sixi.com"
     }
 }
