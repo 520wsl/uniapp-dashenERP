@@ -38,7 +38,7 @@
 			<view class="deliver-goods-submit">
 				<view class="btn-submit"  @tap="cashierAddAction">
 					<image :src="icon_collect_money" style="width: 40upx; height: 40upx;"></image>
-					确认
+					确认收款
 				</view>
 			</view>
 			<view class="collect-money-disabled" style="margin-top:60upx;">为配合阿里系统升级，暂停自提功能，预计4月15日恢复正常</view>
@@ -294,7 +294,7 @@
 		position: relative;
 		padding: 16upx 20upx;
 		border-radius: 8upx;
-		color: #515a6e;
+		color: #ff0000;
 	}
 	// 发货
 	.deliver-goods{
@@ -359,7 +359,7 @@
 		color:#fff;
 		background: #007aff;
 		image{
-			margin-right:15upx;
+			margin-right:20upx;
 		}
 	}
 	.main{

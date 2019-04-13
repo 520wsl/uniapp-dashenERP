@@ -3,7 +3,7 @@
         <image class="logo" src="/static/logo.png"></image>
 		<view>
             <text class="title">{{title}}</text>
-            测试 index 页面 H5项目
+            大昇收银台 index 页面 H5项目
         </view>
 	</view>
 </template>
