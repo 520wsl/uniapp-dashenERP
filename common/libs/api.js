@@ -42,14 +42,12 @@ export default {
         },
         data: {},
         method: "GET",
-        dataType: "json",  /* 如设为json，会对返回的数据做一次 JSON.parse */
+        dataType: "json",
+        /* 如设为json，会对返回的数据做一次 JSON.parse */
         responseType: "text",
-        success() {
-        },
-        fail() {
-        },
-        complete() {
-        }
+        success() {},
+        fail() {},
+        complete() {}
     },
     interceptor: {
         request: null,
@@ -93,7 +91,9 @@ export default {
                 // 统一的响应日志记录
                 _reslog(response)
                 if (statusCode === 200) { //成功
-                    let {data} = response
+                    let {
+                        data
+                    } = response
                     if (response && data && data.status !== 200) {
                         data.data = {};
                     }
@@ -183,9 +183,9 @@ function _reslog(res) {
     if (process.env.NODE_ENV === 'development') {
         console.log("【" + res.config.requestId + "】 地址：" + res.config.url)
         if (res.config.data) {
-            console.log("【" + res.config.requestId + "】 请求参数：" + res.config.data)
+            console.log("【" + res.config.requestId + "】 请求参数：" + JSON.stringify(res.config.data))
         }
-        console.log("【" + res.config.requestId + "】 响应结果：" , res.data)
+        console.log("【" + res.config.requestId + "】 响应结果：", res.data)
     }
     //TODO 除了接口服务错误外，其他日志调接口异步写入日志数据库
     switch (_statusCode) {

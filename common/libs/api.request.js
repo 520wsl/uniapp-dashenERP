@@ -7,7 +7,9 @@
  */
 
 import config from '@/common/config/index.js'
-import {logOut} from '@/common/libs/util/index.js'
+import {
+    logOut
+} from '@/common/libs/util/index.js'
 import HttpRequest from './api'
 
 let baseUrl = '/api';
@@ -20,21 +22,28 @@ if (process.env.NODE_ENV === 'development') {
 //#endif
 function _logOut() {
     uni.showModal({
-            title: "提示",
-            content: "登录超时或未登录，请重新登录",
-            showCancel: false,
-            success: () => {
-                logOut()
-            }
+        title: "提示",
+        content: "登录超时或未登录，请重新登录",
+        showCancel: false,
+        success: () => {
+            logOut()
         }
-    );
+    });
 }
 
-function _error(title = '') {
+function _error(title = '', msg) {
     if (process.env.NODE_ENV === 'development') {
-        uni.showModal({title: title + " :请截图给管理员，以便快捷修复错误！", content: msg, showCancel: false});
+        uni.showModal({
+            title: title + " :请截图给管理员，以便快捷修复错误！",
+            content: msg,
+            showCancel: false
+        });
     } else {
-        uni.showModal({title: "提示", content: '服务异常，请稍后再试', showCancel: false});
+        uni.showModal({
+            title: "提示",
+            content: '服务异常，请稍后再试',
+            showCancel: false
+        });
     }
 }
 
@@ -47,27 +56,26 @@ function _setResponse(res) {
     }
     msg += "【 响应结果 】：" + JSON.stringify(res.data)
 
-    //TODO 除了接口服务错误外，其他日志调接口异步写入日志数据库
     switch (_statusCode) {
         case 200:
             break;
         case 401:
-            this._logOut()
+            _logOut()
             break;
         case 404:
-            this._error("接口资源" + title)
+            _error("接口资源" + title, msg)
             break;
-        case 500 :
-            this._error("服务器" + title)
+        case 500:
+            _error("服务器" + title, msg)
             break;
-        case 501 :
-            this._error("服务器" + title)
+        case 501:
+            _error("服务器" + title, msg)
             break;
-        case 502 :
-            this._error("服务器" + title)
+        case 502:
+            _error("服务器" + title, msg)
             break;
-        case 571 :
-            this._error("授权失败" + title)
+        case 571:
+            _error("授权失败" + title, msg)
             break;
         default:
 
