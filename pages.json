@@ -52,14 +52,14 @@
 		{
 			"path": "pages/create-order/pay-success",
 			"style": {
-				"navigationBarTitleText": "大昇ERP收银台"
+				"navigationBarTitleText": "大昇收银台"
 			}
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "大昇收银台",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#fff"
 	}
 }
