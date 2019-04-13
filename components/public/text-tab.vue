@@ -22,13 +22,27 @@
 </script>
 
 <style lang="less" scoped>
+// .footer{
+// 	padding:40upx 0;
+// 	text-align: center;
+// 	font-size: 26upx;
+// 	color: #999999;
+// 	text{
+// 		margin:0 20upx;
+// 	}
+// }
 .footer{
-	padding:40upx 0;
-	text-align: center;
-	font-size: 26upx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 98upx;
+	border-top:#E4E4E4;
+	background: #fff;
+	font-size:26upx;
 	color: #999999;
 	text{
-		margin:0 20upx;
+		flex:1;
+		text-align: center;
 	}
 }
 </style>
