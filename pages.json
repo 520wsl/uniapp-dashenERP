@@ -57,7 +57,7 @@
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "white",
+		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "大昇收银台",
 		"navigationBarBackgroundColor": "#fff",
 		"backgroundColor": "#fff"
