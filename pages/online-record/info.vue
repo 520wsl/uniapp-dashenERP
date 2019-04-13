@@ -20,7 +20,7 @@
 				<text>{{info.baseInfo && info.baseInfo.buyerId?info.baseInfo.buyerId:''}}</text>
 			</view>
 			<view class="qrcode" v-if="info.baseInfo && info.baseInfo.qrCode">
-				<uni-app-qrcode :size="318" :val="info.baseInfo.qrCode" :loadMake="true" :onval="true" :lv="3" />
+				<uni-app-qrcode :size="318" :val="info.baseInfo.qrCode" :loadMake="true" :onval="true" :lv="1"/>
 			</view>
 		</view>
 		<view :class="isShowProductInfo?'product product-change':'product'">
