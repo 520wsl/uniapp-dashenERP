@@ -104,6 +104,7 @@ export default {
             }
 
             _config = Object.assign({}, this.config, options)
+            _config.data = JSON.stringify(_config.data)
             _config.requestId = new Date().getTime()
 
             if (this.interceptor.request) {
