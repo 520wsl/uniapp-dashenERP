@@ -125,8 +125,11 @@
 </script>
 
 <style lang="less">
+	page{
+		height: 100%;
+	}
 	.layout {
-		height: 100vh;
+		height: 100%;
 		background: #fff;
 		display: flex;
 		flex-direction: column;

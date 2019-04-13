@@ -45,7 +45,11 @@
 </script>
 
 <style lang="less" scoped>
+	page{
+		height: 100%;
+	}
 	.layout{
+		height: 100%;
 		display: flex;
 		background: #f4f4f4;
 		flex-direction: column;
