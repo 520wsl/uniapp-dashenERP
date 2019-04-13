@@ -12,9 +12,10 @@
 						v-model="totalMoney"
 						type="digit"
 						focus="true"
+						maxlength="9"
 						adjust-position="true"
 						placeholder="点击输入金额"
-						placeholder-class="placeholder-class"
+						placeholder-class="input-placeholder"
 					/>
 				</view>
 				<!-- <view class="collect-money-remark">注：建议本次收款金额不能大于10000</view> -->
@@ -57,14 +58,14 @@
 						</view>
 						
 						<view class="pay-info-company">{{company}}</view>
-						<view class="pay-info-status">
+						<view class="pay-info-status" @tap="getSaleOrderInfoAction()">
 							<template v-if="!paymentInfoPayState">
-								<image @tap="getSaleOrderInfoAction()" :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
-								<text @tap="getSaleOrderInfoAction()" style="color:#218FFF">刷新</text>，待支付
+								<image :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
+								<text style="color:#218FFF">刷新</text>，待支付
 							</template>
 							<template v-else>
-								<image @tap="getSaleOrderInfoAction()" :src="icon_ok" style="width: 30upx; height: 30upx;"></image>
-								扫码成功, <text style="color:#218FFF">待支付</text>
+								<image :src="icon_rest" style="width: 30upx; height: 30upx;"></image>
+								扫码成功, <text style="color:#218FFF">等待支付</text>
 							</template>
 						</view>
 						<view class="pay-info-money">
@@ -72,8 +73,8 @@
 						</view>
 						<view class="pay-info-icon">
 							<image :src="icon_zfb" style="width: 100upx; height: 40upx;"></image>
-							<image :src="icon_taobao" style="width: 100upx; height: 40upx;"></image>
-							<image :src="icon_alibaba" style="width: 100upx; height: 40upx;"></image>
+							<image :src="icon_taobao" style="width: 80upx; height: 40upx;"></image>
+							<image :src="icon_alibaba" style="width: 120upx; height: 40upx;"></image>
 						</view>
 					</view>
 				</view>
@@ -185,7 +186,7 @@
 						// 如果支付成功,停止定时器，跳轉頁面
 						if(this.detailsData.paymentInfo.payState == 1){
 							clearInterval(this.timer)
-							uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + detailsData.paymentInfo.tradingTotalAmount})
+							uni.redirectTo({ url:'/pages/create-order/pay-success?money=' + this.detailsData.paymentInfo.tradingTotalAmount})
 							return;
 						}
 					})
@@ -259,7 +260,7 @@
 		}
 	}
 	// 设置input样式
-	.placeholder-class{
+	.input-placeholder{
 		font-size:26upx;
 	}
 	.collect-money-input{
@@ -394,6 +395,7 @@
 		background: #fff;
 	}
 	.pay-info-qrcode{
+		display: flex;
 // 		width: 300upx;
 // 		height: 300upx;
 		margin:40upx 0 20upx 0;
