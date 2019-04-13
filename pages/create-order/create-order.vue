@@ -3,7 +3,7 @@
 		<view class="main">
 			<view class="collect-money">
 				<view class="collect-money-title">
-					<image @click="toclose()" :src="icon_money" style="width: 40upx; height: 40upx;"></image>
+					<image @click="toclose()" :src="icon_money" style="width: 28upx; height: 28upx;"></image>
 					收款金额:
 				</view>
 				<view class="collect-money-input">
@@ -22,23 +22,23 @@
 			</view>
 			<view class="deliver-goods">
 				<view class="deliver-goods-title">
-					<image @click="toclose()" :src="icon_fahuo" style="width: 40upx; height: 40upx;"></image>
+					<image @click="toclose()" :src="icon_fahuo" style="width: 28upx; height: 28upx;"></image>
 					发货方式:
 				</view>
 				<view class="btn-group">
 					<view class="btn mar">
-						<image :src="icon_success" style="width: 40upx; height: 40upx;"></image>
+						<image :src="icon_success" style="width: 30upx; height: 30upx;"></image>
 						自提
 					</view>
 					<view :class="deliveryType == 2? 'btn mar btn-active':'btn mar '" @tap="deliveryType=2">
-						<image :src="icon_success" style="width: 40upx; height: 40upx;"></image>
+						<image :src="icon_success" style="width: 30upx; height: 30upx;"></image>
 						物流
 					</view>
 				</view>
 			</view>
 			<view class="deliver-goods-submit">
 				<view class="btn-submit"  @tap="cashierAddAction">
-					<image :src="icon_collect_money" style="width: 40upx; height: 40upx;"></image>
+					<image :src="icon_collect_money" style="width: 30upx; height: 30upx;"></image>
 					确认收款
 				</view>
 			</view>
@@ -324,7 +324,7 @@
 		width: 176upx;
 		text-align: center;
 		background: #FFFFFF;
-		border: 1upx solid #D9D9D9;
+		border: 2upx solid #D9D9D9;
 		border-radius: 5upx;
 		font-size: 28upx;
 		color: #666666;
@@ -338,8 +338,8 @@
 		image{
 			position:absolute;
 			display:block;
-			top:-20upx;
-			right:-20upx;
+			top:-15upx;
+			right:-15upx;
 		}
 	}
 	.mar{
