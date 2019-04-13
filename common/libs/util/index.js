@@ -1,4 +1,5 @@
 import config from "@/common/config/index.js";
+import { appletAuth } from '@/common/api/login/index.js';
 // 图片CDN
 export const CDN = name => {
     return config.CDN + name;
@@ -35,4 +36,38 @@ export const logOut = (url = '/pages/login/login') => {
             console.log('退出成功')
         }
     });
+}
+/** 
+ * 支付宝登陆检测是否授权
+ * 未授权 -> 页面登录
+ * 已授权 -> 支付宝授权快捷登录
+ */
+export const getLoginUserInfo = (res) => {
+	appletAuth({alipayAppletAuthId:res.authCode})
+		.then( result => {
+			// 查看绑定关系0未绑定1已绑定
+			if(result.data.check == 0){
+				uni.redirectTo({ url:'/pages/login/login' });
+				return;
+			}
+			// 如果只有一家公司,登录成功,保存登陆信息
+			if(result.data.memberId){
+				uni.setStorage({
+					key:'userInfo',
+					data:res.data,
+					success:(res)=>{
+						console.log(res,'存储成功')
+					}
+				})
+				return
+			}
+			// 如果有多家公司购买了ERP
+			if(!result.data.memberId){
+				uni.redirectTo({ url:'/pages/switch-company/switch-company' })
+				return;
+			}
+		})
+		.catch(err=>{
+			uni.showModal({ title: '提示', content: err.msg, showCancel:false });
+		})
 }

@@ -36,13 +36,16 @@
 				</view>
 			</view>
 			<view class="deliver-goods-submit">
-				<button @tap="cashierAddAction" class="submit" type="primary"  size="mini">确认</button>
+				<view class="btn-submit"  @tap="cashierAddAction">
+					<image :src="icon_collect_money" style="width: 40upx; height: 40upx;"></image>
+					确认
+				</view>
 			</view>
 			<view class="collect-money-disabled" style="margin-top:60upx;">为配合阿里系统升级，暂停自提功能，预计4月15日恢复正常</view>
 		</view>
 		<textTab></textTab>
 		<lvvPopup position="top" ref="lvvpopref">
-			<view style="width: 100%;height: 100%;background: #f4f4f4;position: absolute;left:0;">
+			<view style="width: 100%;height: 100%;background: #f4f4f4;position: absolute;left:0;overflow-y: auto;">
 				<view class="pay">
 					<view class="pay-title">
 						使用支付宝、淘宝或阿里巴巴APP扫一扫
@@ -94,15 +97,6 @@
 			console.warn('onUnload')
 			clearInterval(this.timer)
 		},
-		created(){
-			// this.company
-			uni.getStorage({
-				key:'userInfo',
-				success:(res)=>{
-					this.company = res.data.companyName
-				}
-			})
-		},
 		data() {
 			return {
 				saleOrder:'',
@@ -149,6 +143,9 @@
 			icon_ok() {
 				return this.$CDN('icon_ok.png');
 			},
+			icon_collect_money(){
+				return this.$CDN('icon_collect_money.png');
+			},
 			paymentInfoPayState() {
 				// 0待付款 1已付款 2已扫码未付款 
 			    return this.detailsData.paymentInfo.payState == 2
@@ -178,6 +175,13 @@
 						this.detailsData.paymentInfo = res.data.paymentInfo || {}
 						this.detailsData.productInfo = res.data.productInfo || []
 						this.detailsData.productInfoTotal = res.data.productInfoTotal || {}
+						// 设置公司名
+						uni.getStorage({
+							key:'userInfo',
+							success:(res)=>{
+								this.company = res.data.companyName
+							}
+						})
 						// 如果支付成功,停止定时器，跳轉頁面
 						if(this.detailsData.paymentInfo.payState == 1){
 							clearInterval(this.timer)
@@ -228,8 +232,12 @@
 <style lang="less" scoped>
 	page{
 		height: 100%;
+		overflow-y: auto;
 	}
 	.layout{
+		/* #ifdef MP-ALIPAY || MP-WEIXIN */
+		min-height: 100vh;
+		/* #endif */
 		height: 100%;
 		display: flex;
 		flex-direction: column;
@@ -339,12 +347,20 @@
 	.deliver-goods-submit{
 		text-align: center;
 	}
-	.submit{
-		margin:30upx 0;
-		width: 260upx;
-		height: 60upx;
-		font-size:26upx;
-		line-height: 60upx;
+	.btn-submit{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin:30upx auto;
+		border-radius: 8upx;
+		width: 400upx;
+		height: 72upx;
+		font-size:28upx;
+		color:#fff;
+		background: #007aff;
+		image{
+			margin-right:15upx;
+		}
 	}
 	.main{
 		flex: 1
@@ -364,12 +380,12 @@
 		background: #FC8351;
 		color: #FFFFFF;
 		text-align: center;
-		border-radius: 30upx 30upx 0 0;
+		border-radius: 15upx 15upx 0 0;
 	}
 	.pay-title-close{
 		position: absolute;
-		top:15upx;
-		right:40upx;
+		top:10upx;
+		right:10upx;
 	}
 	.pay-info{
 		display: flex;
