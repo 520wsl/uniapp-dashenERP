@@ -9,14 +9,11 @@
 				<image :src="icon_again" style="width:28upx;height:28upx"></image>
 			</view>
 		</view>
-		<textTab></textTab>
 	</view>
 </template>
 
 <script>
-	import textTab from "@/components/public/text-tab.vue"
 	export default {
-		components:{textTab},
 		onLoad(option){
 			this.money = option.money
 		},

@@ -320,8 +320,9 @@
 	.btn{
 		position:relative;
 		display: inline-block;
-		padding: 10upx 0;
+		height: 60upx;
 		width: 176upx;
+		line-height: 60upx;
 		text-align: center;
 		background: #FFFFFF;
 		border: 2upx solid #D9D9D9;
@@ -333,7 +334,7 @@
 		}
 	}
 	.btn-active{
-		border: 1upx solid #4390E9;
+		border: 2upx solid #4390E9;
 		color: #4390E9;
 		image{
 			position:absolute;
