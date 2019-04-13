@@ -124,7 +124,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 	page{
 		height: 100%;
 	}
