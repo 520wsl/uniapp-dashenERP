@@ -129,6 +129,9 @@
 		height: 100%;
 	}
 	.layout {
+		/* #ifdef MP-ALIPAY || MP-WEIXIN */
+		min-height: 100vh;
+		/* #endif */
 		height: 100%;
 		background: #fff;
 		display: flex;

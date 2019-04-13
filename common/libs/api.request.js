@@ -8,8 +8,10 @@
 
 import config from '@/common/config/index.js'
 import {
-    logOut
+    logOut,
+	getLoginUserInfo
 } from '@/common/libs/util/index.js'
+
 import HttpRequest from './api'
 
 let baseUrl = '/api';
@@ -60,7 +62,24 @@ function _setResponse(res) {
         case 200:
             break;
         case 401:
-            _logOut()
+			// 支付宝快捷登录
+			// #ifdef MP-ALIPAY
+				my.getAuthCode({
+				  scopes: 'auth_base',
+				  success: (res) => {
+					 console.log(res)
+					 if(!res.authCode) {
+						 console.error('用户信息获取失败')
+						 return;
+					 }
+					 getLoginUserInfo(res)
+				  },
+				});
+			// #endif
+			// H5、微信判断是否登录
+			// #ifdef H5 || MP-WEIXIN
+				_logOut()
+			// #endif
             break;
         case 404:
             _error("接口资源" + title, msg)

@@ -47,8 +47,12 @@
 <style lang="less" scoped>
 	page{
 		height: 100%;
+		overflow-y: auto;
 	}
 	.layout{
+		/* #ifdef MP-ALIPAY || MP-WEIXIN */
+		min-height: 100vh;
+		/* #endif */
 		height: 100%;
 		display: flex;
 		background: #f4f4f4;
