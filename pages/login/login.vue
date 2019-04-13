@@ -148,7 +148,7 @@
 	}
 
 	.title {
-		font-size: 28upx;
+		font-size: 32upx;
 		color: #4C4C4C;
 	}
 
@@ -162,21 +162,24 @@
 	}
 
 	.getCode {
-		margin-right: auto;
-		height: 100upx;
-		line-height: 100upx;
-		font-size: 22upx;
+		margin-top: 20upx;
+		height: 60upx;
+		line-height: 60upx;
+		font-size: 26upx;
 		color: #218FFF;
 	}
 
 	.login-form-input {
 		background: #fff;
-		border-bottom: solid #ECECEC 1upx;
-
+		border-top:  1upx solid transparent;
+		border-bottom:  1upx solid #ECECEC;
+		height: 100upx;
+		line-height: 100px;
 		input {
 			flex: 1;
-			height: 100upx;
-			padding-left: 3upx;
+			margin-top: 20upx;
+			height: 60upx;;
+			padding-left: 4upx;
 			font-size: 30upx;
 			color: #444;
 		}

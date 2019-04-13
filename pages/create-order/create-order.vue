@@ -14,7 +14,7 @@
 						focus="true"
 						maxlength="9"
 						adjust-position="true"
-						placeholder="点击输入金额"
+						placeholder="请输入金额"
 						placeholder-class="input-placeholder"
 					/>
 				</view>
@@ -103,7 +103,7 @@
 				saleOrder:'',
 				// 定时器
 				timer:null,
-				totalMoney:0,
+				totalMoney:'',
 				company:'',
 				// 1自提 2物流
 				deliveryType:2,
@@ -206,7 +206,7 @@
 					return;
 				}
 				if(this.totalMoney>1000000){
-					uni.showModal({ title: '提示', content: '收款金额不得大于一百万', showCancel:false });
+					uni.showModal({ title: '提示', content: '单笔收款金额不得大于100万', showCancel:false });
 					return;
 				}
 				cashierAdd({totalMoney:this.totalMoney,deliveryType:this.deliveryType})
@@ -320,8 +320,9 @@
 	.btn{
 		position:relative;
 		display: inline-block;
-		padding: 10upx 0;
+		height: 60upx;
 		width: 176upx;
+		line-height: 60upx;
 		text-align: center;
 		background: #FFFFFF;
 		border: 2upx solid #D9D9D9;
@@ -333,7 +334,7 @@
 		}
 	}
 	.btn-active{
-		border: 1upx solid #4390E9;
+		border: 2upx solid #4390E9;
 		color: #4390E9;
 		image{
 			position:absolute;
@@ -352,7 +353,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin:30upx auto;
+		margin:50upx auto;
 		border-radius: 8upx;
 		width: 400upx;
 		height: 72upx;
@@ -428,4 +429,12 @@
 			margin:0 47upx;
 		}
 	}
+	input::-webkit-input-placeholder{
+		font-size:26upx;}
+	input:-moz-placeholder{
+		font-size:26upx;}
+	input::-moz-placeholder{
+		font-size:26upx;}
+	input:-ms-input-placeholder{
+		font-size:26upx;}
 </style>
